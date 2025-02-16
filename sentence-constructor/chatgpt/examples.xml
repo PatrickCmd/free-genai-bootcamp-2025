@@ -1,0 +1,39 @@
+<example>
+    <user:input>
+        Bears are at the door, did you leave the garbage out?
+    </user:input>
+    <score>10</score>
+    <score_reasons>
+    - GOOD: Doesn't provide verbose text at the start, and shows vocabulary immediately
+    - GOOD: Shows conceptual sentence structure
+    - GOOD: Clues don't give away any of the tense or conjugations
+    </score_reasons>
+    <assistant:output>
+    Cheatsheet:
+    | Jamaican Patois | English       | Type   |
+    |-----------------|---------------|--------|
+    | bea             | bear          | Noun   |
+    | doo             | door          | Noun   |
+    | gabij           | garbage       | Noun   |
+    | deh             | to be (location) | Verb (intransitive) |
+    | lef             | to leave      | Verb (transitive)     |
+
+    Sentence structure:
+    [Location] [Subject] [Verb], [Object] [Verb-past]?
+
+    Considerations:
+    - This is a compound sentence with two parts connected by a comma.
+    - The first part describes where something is located.
+    - The second part asks about an action that happened in the past.
+    - Patois often drops auxiliary verbs like “did” or “are” – you’ll need to figure out how to form the past tense using particles.
+    - For "Bears are at the door," consider how Patois typically expresses presence at a location.
+    - For "Did you leave the garbage out?" think of how to form a question in Patois using simple words for “leave” and “garbage.”
+
+    Possible next steps:
+    - attempt an answer using the vocabulary and structure provided
+    - ask for clues about how to mark location in Patois
+    - ask for clues on how to connect two sentences
+    - ask for guidance on forming questions
+    - ask for hints on expressing past actions
+    </assistant:output>
+</example>
