@@ -60,3 +60,4 @@ In the future, we plan to explore the use of open-source models to further enhan
 The Sentence Constructor application effectively uses AI-powered assistants to enhance the learning experience for students studying Jamaican Patois. By providing structured guidance and interactive learning opportunities, the application helps students develop a deeper understanding of the language.
 
 For more information on using these AI models, refer to the respective documentation for [OpenAI's GPT-4o](https://platform.openai.com/docs/models#gpt-4o) and [Meta AI's Llama 3 70B](https://huggingface.co/meta-llama/Meta-Llama-3-70B).
+
