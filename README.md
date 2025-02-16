@@ -7,5 +7,11 @@ GenAI Bootcamp 2025 is a series of weeks of learning Generative AI and prompts f
 ### 1.1. [Learn Jamaican Patois(Beginners) 20 Common questions and Answers - YouTube](https://www.youtube.com/watch?v=MGKIqxlkwPY)
 ### 1.2. [Jamaican Patois Language Guide - YouTube](https://www.youtube.com/watch?v=r9zOthNkVPU&list=PL4Jw2ofjp-ikoH31FAO2P_ZiuB_pdfE1j)
 
-## 2. Prompt Engineering
+## 2. Sentence Constructor
+
+### 2.1. [Sentence Constructor Journal](sentence-constructor/README.md)
+### 2.2. [Sentence Constructor Prompt](sentence-constructor/chatgpt/prompt.md)
+### 2.3. [Sentence Constructor Hypothesis](sentence-constructor/hypothesis/hypothesis.md)
+### 2.4. [Sentence Constructor Technical](sentence-constructor/hypothesis/technical.md)
+
 
