@@ -1,0 +1,162 @@
+[
+    {
+        "id": 1,
+        "jamaican_patois": "Wah Gwaan",
+        "english": "Hello",
+        "parts": {
+            "type": "phrase"
+        }
+    },
+    {
+        "id": 2,
+        "jamaican_patois": "Mi deh yah",
+        "english": "I'm here",
+        "parts": {
+            "type": "phrase"
+        }
+    },
+    {
+        "id": 3,
+        "jamaican_patois": "Weh yuh deh pon?",
+        "english": "What are you up to?",
+        "parts": {
+            "type": "phrase"
+        }
+    },
+    {
+        "id": 4,
+        "jamaican_patois": "Small up yuhself",
+        "english": "Make room",
+        "parts": {
+            "type": "phrase"
+        }
+    },
+    {
+        "id": 5,
+        "jamaican_patois": "Tek time",
+        "english": "Go slowly",
+        "parts": {
+            "type": "phrase"
+        }
+    },
+    {
+        "id": 6,
+        "jamaican_patois": "Big up",
+        "english": "Respect",
+        "parts": {
+            "type": "verb"
+        }
+    },
+    {
+        "id": 7,
+        "jamaican_patois": "Likkle more",
+        "english": "Later",
+        "parts": {
+            "type": "phrase"
+        }
+    },
+    {
+        "id": 8,
+        "jamaican_patois": "Fimi",
+        "english": "Mine",
+        "parts": {
+            "type": "possessive"
+        }
+    },
+    {
+        "id": 9,
+        "jamaican_patois": "Nuh badda mi",
+        "english": "Don't bother me",
+        "parts": {
+            "type": "phrase"
+        }
+    },
+    {
+        "id": 10,
+        "jamaican_patois": "Craven",
+        "english": "Greedy",
+        "parts": {
+            "type": "adjective"
+        }
+    },
+    {
+        "id": 11,
+        "jamaican_patois": "Madda",
+        "english": "Mother",
+        "parts": {
+            "type": "noun"
+        }
+    },
+    {
+        "id": 12,
+        "jamaican_patois": "Fada",
+        "english": "Father",
+        "parts": {
+            "type": "noun"
+        }
+    },
+    {
+        "id": 13,
+        "jamaican_patois": "Pickney",
+        "english": "Child",
+        "parts": {
+            "type": "noun"
+        }
+    },
+    {
+        "id": 14,
+        "jamaican_patois": "Nyam",
+        "english": "Eat",
+        "parts": {
+            "type": "verb"
+        }
+    },
+    {
+        "id": 15,
+        "jamaican_patois": "Rhaatid",
+        "english": "Expression of surprise",
+        "parts": {
+            "type": "interjection"
+        }
+    },
+    {
+        "id": 16,
+        "jamaican_patois": "Boonoonoonoos",
+        "english": "Wonderful",
+        "parts": {
+            "type": "adjective"
+        }
+    },
+    {
+        "id": 17,
+        "jamaican_patois": "Bredren",
+        "english": "Friend (male)",
+        "parts": {
+            "type": "noun"
+        }
+    },
+    {
+        "id": 18,
+        "jamaican_patois": "Sistren",
+        "english": "Friend (female)",
+        "parts": {
+            "type": "noun"
+        }
+    },
+    {
+        "id": 19,
+        "jamaican_patois": "Yute",
+        "english": "Youth",
+        "parts": {
+            "type": "noun"
+        }
+    },
+    {
+        "id": 20,
+        "jamaican_patois": "Irie",
+        "english": "Alright / Good",
+        "parts": {
+            "type": "adjective"
+        }
+    }
+]

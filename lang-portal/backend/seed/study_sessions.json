@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "group_id": 1,
+        "created_at": "2025-02-02T12:00:00Z",
+        "study_activity_id": 1
+    },
+    {
+        "id": 2,
+        "group_id": 2,
+        "created_at": "2025-02-03T12:00:00Z",
+        "study_activity_id": 2
+    },
+    {
+        "id": 3,
+        "group_id": 3,
+        "created_at": "2025-02-04T12:00:00Z",
+        "study_activity_id": 3
+    },
+    {
+        "id": 4,
+        "group_id": 4,
+        "created_at": "2025-02-05T12:00:00Z",
+        "study_activity_id": 4
+    },
+    {
+        "id": 5,
+        "group_id": 5,
+        "created_at": "2025-02-06T12:00:00Z",
+        "study_activity_id": 5
+    },
+    {
+        "id": 6,
+        "group_id": 6,
+        "created_at": "2025-02-07T12:00:00Z",
+        "study_activity_id": 6
+    },
+    {
+        "id": 7,
+        "group_id": 7,
+        "created_at": "2025-02-08T12:00:00Z",
+        "study_activity_id": 7
+    },
+    {
+        "id": 8,
+        "group_id": 8,
+        "created_at": "2025-02-09T12:00:00Z",
+        "study_activity_id": 8
+    },
+    {
+        "id": 9,
+        "group_id": 9,
+        "created_at": "2025-02-10T12:00:00Z",
+        "study_activity_id": 9
+    },
+    {
+        "id": 10,
+        "group_id": 10,
+        "created_at": "2025-02-11T12:00:00Z",
+        "study_activity_id": 10
+    },
+    {
+        "id": 11,
+        "group_id": 11,
+        "created_at": "2025-02-12T12:00:00Z",
+        "study_activity_id": 11
+    },
+    {
+        "id": 12,
+        "group_id": 12,
+        "created_at": "2025-02-13T12:00:00Z",
+        "study_activity_id": 12
+    },
+    {
+        "id": 13,
+        "group_id": 13,
+        "created_at": "2025-02-14T12:00:00Z",
+        "study_activity_id": 13
+    },
+    {
+        "id": 14,
+        "group_id": 14,
+        "created_at": "2025-02-15T12:00:00Z",
+        "study_activity_id": 14
+    },
+    {
+        "id": 15,
+        "group_id": 15,
+        "created_at": "2025-02-16T12:00:00Z",
+        "study_activity_id": 15
+    },
+    {
+        "id": 16,
+        "group_id": 16,
+        "created_at": "2025-02-17T12:00:00Z",
+        "study_activity_id": 16
+    },
+    {
+        "id": 17,
+        "group_id": 17,
+        "created_at": "2025-02-18T12:00:00Z",
+        "study_activity_id": 17
+    },
+    {
+        "id": 18,
+        "group_id": 18,
+        "created_at": "2025-02-19T12:00:00Z",
+        "study_activity_id": 18
+    },
+    {
+        "id": 19,
+        "group_id": 19,
+        "created_at": "2025-02-20T12:00:00Z",
+        "study_activity_id": 19
+    },
+    {
+        "id": 20,
+        "group_id": 20,
+        "created_at": "2025-02-21T12:00:00Z",
+        "study_activity_id": 20
+    }
+]

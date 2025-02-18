@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "name": "Basic Greetings"
+    },
+    {
+        "id": 2,
+        "name": "Common Phrases"
+    },
+    {
+        "id": 3,
+        "name": "Food & Eating"
+    },
+    {
+        "id": 4,
+        "name": "Daily Expressions"
+    },
+    {
+        "id": 5,
+        "name": "Verbs Collection"
+    },
+    {
+        "id": 6,
+        "name": "Adjective Bunch"
+    },
+    {
+        "id": 7,
+        "name": "Slang Terms"
+    },
+    {
+        "id": 8,
+        "name": "Nature & Weather"
+    },
+    {
+        "id": 9,
+        "name": "Travel & Directions"
+    },
+    {
+        "id": 10,
+        "name": "Time & Dates"
+    },
+    {
+        "id": 11,
+        "name": "Numbers"
+    },
+    {
+        "id": 12,
+        "name": "Animals"
+    },
+    {
+        "id": 13,
+        "name": "Emotions & Feelings"
+    },
+    {
+        "id": 14,
+        "name": "Colors"
+    },
+    {
+        "id": 15,
+        "name": "Hobbies"
+    },
+    {
+        "id": 16,
+        "name": "Shopping"
+    },
+    {
+        "id": 17,
+        "name": "Health & Body"
+    },
+    {
+        "id": 18,
+        "name": "Festivals & Events"
+    },
+    {
+        "id": 19,
+        "name": "Music & Dance"
+    },
+    {
+        "id": 20,
+        "name": "Random"
+    }
+]
