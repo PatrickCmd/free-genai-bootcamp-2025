@@ -171,8 +171,8 @@ We’ll store the raw SQL in `sql/setup/`. Here’s an example set of scripts ba
 
 ### One-Time Initialization vs. Setup Scripts
 
-- [ ] **Run** each setup script in order using a simple Python script (or manually in the SQLite shell) to create your initial database schema.
-- [ ] **Confirm** no errors occur when you run these scripts.
+- [x] **Run** each setup script in order using a simple Python script (or manually in the SQLite shell) to create your initial database schema.
+- [x] **Confirm** no errors occur when you run these scripts.
 
 **Example** of a quick “init DB” script (if you are not yet using migrations):
 
@@ -210,8 +210,8 @@ If you need to **add columns** or **modify tables** later, you can’t just reru
 
 ### Steps
 
-1. [ ] **Create** a `sql/migrations` folder.
-2. [ ] **Create** a `schema_migrations` table to track applied migrations:
+1. [x] **Create** a `sql/migrations` folder.
+2. [x] **Create** a `schema_migrations` table to track applied migrations:
    ```sql
    -- This can be in 0001_init.sql or you can do it manually once
    CREATE TABLE IF NOT EXISTS schema_migrations (
@@ -220,14 +220,14 @@ If you need to **add columns** or **modify tables** later, you can’t just reru
        applied_at DATETIME DEFAULT (datetime('now'))
    );
    ```
-3. [ ] **Write** each migration in a file like `0002_add_parts_column_to_words.sql`:
+3. [x] **Write** each migration in a file like `0002_add_parts_column_to_words.sql`:
    ```sql
    -- 0002_add_parts_column_to_words.sql
    ALTER TABLE words ADD COLUMN parts JSON;
    ```
    *(If you already have it, this is just an example for demonstration.)*
 
-4. [ ] **Create** a `migrate.py` script to apply new migrations in ascending order:
+4. [x] **Create** a `migrate.py` script to apply new migrations in ascending order:
 
    ```python
    import os
@@ -268,7 +268,7 @@ If you need to **add columns** or **modify tables** later, you can’t just reru
        print("All migrations applied successfully!")
    ```
 
-5. [ ] (Optional) **Implement** rollback logic:  
+5. [x] (Optional) **Implement** rollback logic:  
    - Typically, you either create a `DOWN` script in each migration file or maintain a separate `.down.sql` file.  
    - If you need to revert, you run that `DOWN` script in reverse order.  
    - This can be more complex; decide if it’s necessary.
@@ -277,13 +277,13 @@ If you need to **add columns** or **modify tables** later, you can’t just reru
 
 ## Automated Testing Considerations
 
-1. [ ] **Use** a separate **in-memory** or **temporary** SQLite DB when testing migrations:
+1. [x] **Use** a separate **in-memory** or **temporary** SQLite DB when testing migrations:
    ```bash
    DB_NAME=":memory:" python -m pytest
    ```
    Or dynamically set `DB_NAME` in your test environment so you don’t overwrite your production/dev DB.
-2. [ ] **Test** that migrations run **on a fresh DB** (no data), **and** test they run on a DB **with** an existing schema (to ensure no conflicts).
-3. [ ] **Verify** that your final schema matches the expected state after all migrations have run.
+2. [x] **Test** that migrations run **on a fresh DB** (no data), **and** test they run on a DB **with** an existing schema (to ensure no conflicts).
+3. [x] **Verify** that your final schema matches the expected state after all migrations have run.
 
 ### Example Test in `tests/test_migrations.py`
 
