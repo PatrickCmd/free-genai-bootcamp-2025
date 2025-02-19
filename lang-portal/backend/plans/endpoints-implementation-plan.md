@@ -320,15 +320,15 @@ def test_get_word():
 
 ### Steps
 
-1. [ ] **Create** `routes/groups.py`.
-2. [ ] **Import** modules:
+1. [x] **Create** `routes/groups.py`.
+2. [x] **Import** modules:
    ```python
    from fastapi import APIRouter, Query
    from lib.db import get_db_connection
 
    router = APIRouter()
    ```
-3. [ ] **Implement** `GET /api/groups`:
+3. [x] **Implement** `GET /api/groups`:
    ```python
    @router.get("/")
    def list_groups(page: int = Query(1, ge=1)):

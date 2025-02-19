@@ -84,19 +84,49 @@ uvicorn app:app --reload
 - The server will be available at `http://127.0.0.1:8000`.
 - Access the interactive API documentation at `http://127.0.0.1:8000/docs`.
 
-## Testing the `get_words` Endpoint
+## API Endpoints
 
-You can test the `get_words` endpoint using `curl`:
+### Words Endpoints
 
-```bash
-curl -X GET "http://127.0.0.1:8000/api/words"
-```
+1. **Get All Words with Pagination:**
+   - **Endpoint:** `GET /api/words`
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1).
+     - `page_size`: The number of items per page (default: 10).
+   - **Example:**
+     ```bash
+     curl -X GET "http://127.0.0.1:8000/api/words?page=1&page_size=10"
+     ```
 
-- This will return a paginated list of words.
-- You can specify the page and page size using query parameters:
-  ```bash
-  curl -X GET "http://127.0.0.1:8000/api/words?page=2&page_size=5"
-  ```
+2. **Get a Specific Word by ID:**
+   - **Endpoint:** `GET /api/words/{word_id}`
+   - **Path Parameter:**
+     - `word_id`: The ID of the word to retrieve.
+   - **Example:**
+     ```bash
+     curl -X GET "http://127.0.0.1:8000/api/words/1"
+     ```
+
+### Groups Endpoints
+
+1. **Get All Groups with Pagination:**
+   - **Endpoint:** `GET /api/groups`
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1).
+     - `page_size`: The number of items per page (default: 10).
+   - **Example:**
+     ```bash
+     curl -X GET "http://127.0.0.1:8000/api/groups?page=1&page_size=10"
+     ```
+
+2. **Get a Specific Group by ID:**
+   - **Endpoint:** `GET /api/groups/{group_id}`
+   - **Path Parameter:**
+     - `group_id`: The ID of the group to retrieve.
+   - **Example:**
+     ```bash
+     curl -X GET "http://127.0.0.1:8000/api/groups/1"
+     ```
 
 ## Running Unit Tests
 
@@ -112,4 +142,4 @@ pytest tests -v
 ## Additional Information
 
 - The API uses CORS middleware to allow requests from any origin.
-- The `get_words` endpoint supports pagination and returns data in a structured format using Pydantic models. 
+- The endpoints support pagination and return data in a structured format using Pydantic models. 

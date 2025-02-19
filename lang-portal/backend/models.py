@@ -9,6 +9,16 @@ class Word(BaseModel):
     correct_count: int
     wrong_count: int
 
+class Group(BaseModel):
+    id: int
+    name: str
+    word_count: int
+    description: Optional[str]
+
 class PaginatedWords(BaseModel):
     words: List[Word]
+    pagination: dict
+
+class PaginatedGroups(BaseModel):
+    groups: List[Group]
     pagination: dict 
