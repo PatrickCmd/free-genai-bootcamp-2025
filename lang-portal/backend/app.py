@@ -5,6 +5,7 @@ from routes.groups import router as groups_router
 from routes.study_activities import router as study_activities_router
 from routes.study_sessions import router as study_sessions_router
 from routes.dashboard import router as dashboard_router
+from routes.reset import router as reset_router
 
 app = FastAPI(
     title="Language Portal API",
@@ -25,4 +26,5 @@ app.include_router(words_router, prefix="/api")
 app.include_router(groups_router, prefix="/api")
 app.include_router(study_activities_router, prefix="/api")
 app.include_router(study_sessions_router, prefix="/api")
-app.include_router(dashboard_router, prefix="/api") 
+app.include_router(dashboard_router, prefix="/api")
+app.include_router(reset_router, prefix="/api") 

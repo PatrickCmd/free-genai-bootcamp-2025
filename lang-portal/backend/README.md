@@ -644,3 +644,33 @@ The collection mirrors the Postman collection structure with four main folders:
 - The "Headers" tab shows all request headers
 - For POST requests, check the "Body" tab for the correct JSON structure
 - Use the "Query" tab to modify URL parameters easily 
+
+### Reset Endpoints (Development Only)
+
+These endpoints are only available when `ENABLE_RESET=true` is set in the environment.
+
+1. **Reset All Data:**
+   - **Endpoint:** `POST /api/reset/all`
+   - **Description:** Reset all data in the database.
+   - **Example:**
+     ```bash
+     curl -X POST "http://127.0.0.1:8000/api/reset/all"
+     ```
+
+2. **Reset Study Data:**
+   - **Endpoint:** `POST /api/reset/study-data`
+   - **Description:** Reset only study-related data, preserving words and groups.
+   - **Example:**
+     ```bash
+     curl -X POST "http://127.0.0.1:8000/api/reset/study-data"
+     ```
+
+3. **Seed Test Data:**
+   - **Endpoint:** `POST /api/reset/seed`
+   - **Description:** Seed the database with test data.
+   - **Example:**
+     ```bash
+     curl -X POST "http://127.0.0.1:8000/api/reset/seed"
+     ```
+
+> **Warning:** These endpoints should never be enabled in production as they will delete data! 
