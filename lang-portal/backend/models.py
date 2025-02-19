@@ -55,4 +55,20 @@ class WordReview(BaseModel):
     correct: bool
     created_at: str
     word_jamaican_patois: str
-    word_english: str 
+    word_english: str
+
+class StudyProgress(BaseModel):
+    total_words_reviewed: int
+    total_correct: int
+    total_incorrect: int
+    accuracy_rate: float
+    total_study_sessions: int
+    total_study_time_minutes: int
+    words_by_group: List[dict]
+
+class QuickStats(BaseModel):
+    total_words: int
+    words_learned: int  # Words with at least one correct review
+    total_study_time_minutes: int
+    recent_accuracy: float  # Accuracy rate for last 50 reviews
+    streak_days: int  # Consecutive days with study sessions 

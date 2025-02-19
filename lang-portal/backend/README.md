@@ -396,6 +396,86 @@ uvicorn app:app --reload
      }
      ```
 
+### Dashboard Endpoints
+
+1. **Get Last Study Session:**
+   - **Endpoint:** `GET /api/dashboard/last_study_session`
+   - **Description:** Retrieve information about the most recent study session.
+   - **Example:**
+     ```bash
+     # Basic request
+     curl -X GET "http://127.0.0.1:8000/api/dashboard/last_study_session"
+     
+     # Pretty print JSON response
+     curl -X GET "http://127.0.0.1:8000/api/dashboard/last_study_session" | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "id": 1,
+       "activity_name": "Vocabulary Review",
+       "group_name": "Beginner Patois",
+       "start_time": "2024-02-18T10:00:00",
+       "end_time": null,
+       "review_items_count": 10
+     }
+     ```
+
+2. **Get Study Progress Statistics:**
+   - **Endpoint:** `GET /api/dashboard/study_progress`
+   - **Description:** Retrieve overall study progress statistics including word reviews, accuracy rates, and group-specific progress.
+   - **Example:**
+     ```bash
+     # Basic request
+     curl -X GET "http://127.0.0.1:8000/api/dashboard/study_progress"
+     
+     # Pretty print JSON response
+     curl -X GET "http://127.0.0.1:8000/api/dashboard/study_progress" | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "total_words_reviewed": 150,
+       "total_correct": 120,
+       "total_incorrect": 30,
+       "accuracy_rate": 80.0,
+       "total_study_sessions": 10,
+       "total_study_time_minutes": 120,
+       "words_by_group": [
+         {
+           "group_id": 1,
+           "group_name": "Beginner Patois",
+           "unique_words": 50,
+           "total_reviews": 75,
+           "correct_reviews": 60,
+           "accuracy_rate": 80.0
+         }
+       ]
+     }
+     ```
+
+3. **Get Quick Statistics:**
+   - **Endpoint:** `GET /api/dashboard/quick-stats`
+   - **Description:** Retrieve quick overview statistics for the dashboard.
+   - **Example:**
+     ```bash
+     # Basic request
+     curl -X GET "http://127.0.0.1:8000/api/dashboard/quick-stats"
+     
+     # Pretty print JSON response
+     curl -X GET "http://127.0.0.1:8000/api/dashboard/quick-stats" | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "total_words": 200,
+       "words_learned": 75,
+       "total_study_time_minutes": 180,
+       "recent_accuracy": 85.5,
+       "streak_days": 3
+     }
+     ```
+
 ## Running Unit Tests
 
 To run the unit tests, use `pytest`:

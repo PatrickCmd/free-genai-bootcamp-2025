@@ -54,15 +54,15 @@ This plan outlines the steps for a junior developer to implement all the API end
 
 ### Steps
 
-1. [ ] **Create** a file: `routes/dashboard.py`.
-2. [ ] **Import** necessary modules:
+1. [x] **Create** a file: `routes/dashboard.py`.
+2. [x] **Import** necessary modules:
    ```python
    from fastapi import APIRouter
    from lib.db import get_db_connection
 
    router = APIRouter()
    ```
-3. [ ] **Implement** `GET /api/dashboard/last_study_session`:
+3. [x] **Implement** `GET /api/dashboard/last_study_session`:
    ```python
    @router.get("/last_study_session")
    def get_last_study_session():
@@ -86,7 +86,7 @@ This plan outlines the steps for a junior developer to implement all the API end
            }
        return {}
    ```
-4. [ ] **Implement** `GET /api/dashboard/study_progress`:
+4. [x] **Implement** `GET /api/dashboard/study_progress`:
    ```python
    @router.get("/study_progress")
    def get_study_progress():
@@ -104,7 +104,7 @@ This plan outlines the steps for a junior developer to implement all the API end
            "total_available_words": total_available_words
        }
    ```
-5. [ ] **Implement** `GET /api/dashboard/quick-stats`:
+5. [x] **Implement** `GET /api/dashboard/quick-stats`:
    ```python
    @router.get("/quick-stats")
    def get_quick_stats():
