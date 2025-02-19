@@ -490,4 +490,76 @@ pytest tests -v
 ## Additional Information
 
 - The API uses CORS middleware to allow requests from any origin.
-- The endpoints support pagination and return data in a structured format using Pydantic models. 
+- The endpoints support pagination and return data in a structured format using Pydantic models.
+
+## Testing with Postman
+
+The API includes a Postman collection file (`lang-portal.postman_collection.json`) that contains all endpoints for testing.
+
+### Importing the Collection
+
+1. Open Postman
+2. Click the "Import" button in the top left
+3. Drag and drop the `lang-portal.postman_collection.json` file or click "Upload Files" to select it
+4. Click "Import" to add the collection to your workspace
+
+### Collection Structure
+
+The collection is organized into four main folders:
+
+1. **Groups**
+   - Get All Groups
+   - Get Group by ID
+   - Get Group Words
+   - Get Group Study Sessions
+
+2. **Study Activities**
+   - Create Study Activity
+   - Get Study Activity by ID
+
+3. **Study Sessions**
+   - Get All Study Sessions
+   - Get Study Session by ID
+   - Get Session Words
+   - Create Word Review
+
+4. **Dashboard**
+   - Get Last Study Session
+   - Get Study Progress
+   - Get Quick Stats
+
+### Using the Collection
+
+1. Make sure your FastAPI server is running at `http://127.0.0.1:8000`
+2. All endpoints are pre-configured with:
+   - Correct HTTP methods
+   - Required headers
+   - Example request bodies for POST requests
+   - Query parameters for pagination
+3. For endpoints with path parameters (like `{id}`), replace the sample IDs with actual values
+4. Click "Send" to make the request
+
+### Example Usage
+
+1. **Create a Study Activity:**
+   - Open the "Study Activities" folder
+   - Select "Create Study Activity"
+   - The request body is pre-filled with:
+     ```json
+     {
+       "name": "Vocabulary Review",
+       "group_id": 1
+     }
+     ```
+   - Click "Send" to create the activity
+
+2. **View Study Progress:**
+   - Open the "Dashboard" folder
+   - Select "Get Study Progress"
+   - Click "Send" to view overall progress statistics
+
+### Tips
+
+- Use the "Pretty" response formatter in Postman to view formatted JSON responses
+- Check the "Headers" tab to verify Content-Type is set correctly
+- For paginated endpoints, try different page and page_size values in the query parameters 

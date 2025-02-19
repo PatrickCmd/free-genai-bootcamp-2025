@@ -176,8 +176,8 @@ def test_get_quick_stats():
 
 ### Steps
 
-1. [ ] **Create** `routes/words.py`.
-2. [ ] **Import** modules:
+1. [x] **Create** `routes/words.py`.
+2. [x] **Import** modules:
    ```python
    from fastapi import APIRouter, Query
    from lib.db import get_db_connection
