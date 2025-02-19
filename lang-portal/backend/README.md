@@ -58,4 +58,58 @@ This will initialize the database and seed it with data, preparing it for use in
 - Ensure that the `words.db` file is not in version control by adding it to `.gitignore`.
 - The database schema and seed data are defined in the `sql/setup` and `seed` directories, respectively.
 
-For further details, refer to the specific documentation files within the project. 
+For further details, refer to the specific documentation files within the project.
+
+# Language Portal Backend
+
+This backend provides an API for managing language learning resources using FastAPI.
+
+## Prerequisites
+
+- Python 3.11+
+- Install dependencies:
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+## Running the FastAPI Application
+
+To start the FastAPI server, use the following command:
+
+```bash
+cd lang-portal/backend
+uvicorn app:app --reload
+```
+
+- The server will be available at `http://127.0.0.1:8000`.
+- Access the interactive API documentation at `http://127.0.0.1:8000/docs`.
+
+## Testing the `get_words` Endpoint
+
+You can test the `get_words` endpoint using `curl`:
+
+```bash
+curl -X GET "http://127.0.0.1:8000/api/words"
+```
+
+- This will return a paginated list of words.
+- You can specify the page and page size using query parameters:
+  ```bash
+  curl -X GET "http://127.0.0.1:8000/api/words?page=2&page_size=5"
+  ```
+
+## Running Unit Tests
+
+To run the unit tests, use `pytest`:
+
+```bash
+pytest tests -v
+```
+
+- This will execute all tests in the `tests` directory.
+- Ensure that the database is set up correctly before running tests.
+
+## Additional Information
+
+- The API uses CORS middleware to allow requests from any origin.
+- The `get_words` endpoint supports pagination and returns data in a structured format using Pydantic models. 
