@@ -40,4 +40,34 @@ def test_get_group():
 def test_get_group_not_found():
     response = client.get("/api/groups/9999")
     assert response.status_code == 404
-    assert response.json()["detail"] == "Group not found" 
+    assert response.json()["detail"] == "Group not found"
+
+def test_get_group_words():
+    response = client.get("/api/groups/1/words")
+    assert response.status_code == 200
+    assert "words" in response.json()
+    assert "pagination" in response.json()
+    assert "current_page" in response.json()["pagination"]
+    assert "total_pages" in response.json()["pagination"]
+    assert "total_items" in response.json()["pagination"]
+    assert "items_per_page" in response.json()["pagination"]
+
+def test_get_group_words_not_found():
+    response = client.get("/api/groups/9999/words")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "No words found for this group"
+
+def test_get_group_study_sessions():
+    response = client.get("/api/groups/1/study_sessions")
+    assert response.status_code == 200
+    assert "study_sessions" in response.json()
+    assert "pagination" in response.json()
+    assert "current_page" in response.json()["pagination"]
+    assert "total_pages" in response.json()["pagination"]
+    assert "total_items" in response.json()["pagination"]
+    assert "items_per_page" in response.json()["pagination"]
+
+def test_get_group_study_sessions_not_found():
+    response = client.get("/api/groups/9999/study_sessions")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "No study sessions found for this group" 

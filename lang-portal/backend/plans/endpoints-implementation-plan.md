@@ -368,7 +368,7 @@ def test_get_word():
            }
        }
    ```
-4. [ ] **Implement** `GET /api/groups/{group_id}`:
+4. [x] **Implement** `GET /api/groups/{group_id}`:
    ```python
    @router.get("/{group_id}")
    def get_group(group_id: int):
@@ -397,7 +397,7 @@ def test_get_word():
            }
        }
    ```
-5. [ ] **Implement** `GET /api/groups/{group_id}/words`:
+5. [x] **Implement** `GET /api/groups/{group_id}/words`:
    ```python
    @router.get("/{group_id}/words")
    def get_group_words(group_id: int, page: int = Query(1, ge=1)):
@@ -445,7 +445,7 @@ def test_get_word():
            }
        }
    ```
-6. [ ] **Implement** `GET /api/groups/{group_id}/study_sessions`:
+6. [x] **Implement** `GET /api/groups/{group_id}/study_sessions`:
    ```python
    @router.get("/{group_id}/study_sessions")
    def get_group_study_sessions(group_id: int, page: int = Query(1, ge=1)):

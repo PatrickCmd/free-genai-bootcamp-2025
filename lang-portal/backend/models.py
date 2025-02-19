@@ -15,10 +15,22 @@ class Group(BaseModel):
     word_count: int
     description: Optional[str]
 
+class StudySession(BaseModel):
+    id: int
+    activity_name: str
+    group_name: str
+    start_time: str
+    end_time: Optional[str]
+    review_items_count: int
+
 class PaginatedWords(BaseModel):
     words: List[Word]
     pagination: dict
 
 class PaginatedGroups(BaseModel):
     groups: List[Group]
+    pagination: dict
+
+class PaginatedStudySessions(BaseModel):
+    study_sessions: List[StudySession]
     pagination: dict 

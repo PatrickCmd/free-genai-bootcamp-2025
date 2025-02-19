@@ -128,6 +128,51 @@ uvicorn app:app --reload
      curl -X GET "http://127.0.0.1:8000/api/groups/1"
      ```
 
+3. **Get Words for a Specific Group with Pagination:**
+   - **Endpoint:** `GET /api/groups/{group_id}/words`
+   - **Path Parameter:**
+     - `group_id`: The ID of the group to retrieve words for.
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1).
+     - `page_size`: The number of items per page (default: 10).
+   - **Example:**
+     ```bash
+     curl -X GET "http://127.0.0.1:8000/api/groups/1/words?page=1&page_size=10"
+     ```
+
+4. **Get Study Sessions for a Specific Group with Pagination:**
+   - **Endpoint:** `GET /api/groups/{group_id}/study_sessions`
+   - **Path Parameter:**
+     - `group_id`: The ID of the group to retrieve study sessions for.
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1).
+     - `page_size`: The number of items per page (default: 10).
+   - **Example:**
+     ```bash
+     curl -X GET "http://127.0.0.1:8000/api/groups/1/study_sessions?page=1&page_size=10"
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "study_sessions": [
+         {
+           "id": 1,
+           "activity_name": "Vocabulary Review",
+           "group_name": "Beginner Patois",
+           "start_time": "2024-02-18T10:00:00",
+           "end_time": null,
+           "review_items_count": 10
+         }
+       ],
+       "pagination": {
+         "current_page": 1,
+         "total_pages": 1,
+         "total_items": 1,
+         "items_per_page": 10
+       }
+     }
+     ```
+
 ## Running Unit Tests
 
 To run the unit tests, use `pytest`:

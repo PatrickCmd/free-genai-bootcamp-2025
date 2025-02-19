@@ -1,122 +1,142 @@
 [
     {
         "id": 1,
+        "name": "Vocabulary Review",
         "study_session_id": 1,
         "group_id": 1,
-        "created_at": "2025-02-02T13:00:00Z"
+        "created_at": "2024-02-18T10:00:00"
     },
     {
         "id": 2,
+        "name": "Pronunciation Practice",
         "study_session_id": 2,
-        "group_id": 2,
-        "created_at": "2025-02-03T13:00:00Z"
+        "group_id": 1,
+        "created_at": "2024-02-18T11:00:00"
     },
     {
         "id": 3,
+        "name": "Grammar Exercise",
         "study_session_id": 3,
-        "group_id": 3,
-        "created_at": "2025-02-04T13:00:00Z"
+        "group_id": 2,
+        "created_at": "2024-02-18T12:00:00"
     },
     {
         "id": 4,
+        "name": "Listening Comprehension",
         "study_session_id": 4,
-        "group_id": 4,
-        "created_at": "2025-02-05T13:00:00Z"
+        "group_id": 2,
+        "created_at": "2024-02-18T13:00:00"
     },
     {
         "id": 5,
+        "name": "Speaking Practice",
         "study_session_id": 5,
-        "group_id": 5,
-        "created_at": "2025-02-06T13:00:00Z"
+        "group_id": 3,
+        "created_at": "2024-02-18T14:00:00"
     },
     {
         "id": 6,
+        "name": "Reading Practice",
         "study_session_id": 6,
-        "group_id": 6,
-        "created_at": "2025-02-07T13:00:00Z"
+        "group_id": 3,
+        "created_at": "2024-02-18T15:00:00"
     },
     {
         "id": 7,
+        "name": "Writing Exercise",
         "study_session_id": 7,
-        "group_id": 7,
-        "created_at": "2025-02-08T13:00:00Z"
+        "group_id": 4,
+        "created_at": "2024-02-18T16:00:00"
     },
     {
         "id": 8,
+        "name": "Vocabulary Quiz",
         "study_session_id": 8,
-        "group_id": 8,
-        "created_at": "2025-02-09T13:00:00Z"
+        "group_id": 4,
+        "created_at": "2024-02-18T17:00:00"
     },
     {
         "id": 9,
+        "name": "Grammar Quiz",
         "study_session_id": 9,
-        "group_id": 9,
-        "created_at": "2025-02-10T13:00:00Z"
+        "group_id": 5,
+        "created_at": "2024-02-18T18:00:00"
     },
     {
         "id": 10,
+        "name": "Conversation Practice",
         "study_session_id": 10,
-        "group_id": 10,
-        "created_at": "2025-02-11T13:00:00Z"
+        "group_id": 5,
+        "created_at": "2024-02-18T19:00:00"
     },
     {
         "id": 11,
+        "name": "Vocabulary Review 2",
         "study_session_id": 11,
-        "group_id": 11,
-        "created_at": "2025-02-12T13:00:00Z"
+        "group_id": 6,
+        "created_at": "2024-02-18T20:00:00"
     },
     {
         "id": 12,
+        "name": "Pronunciation Practice 2",
         "study_session_id": 12,
-        "group_id": 12,
-        "created_at": "2025-02-13T13:00:00Z"
+        "group_id": 6,
+        "created_at": "2024-02-18T21:00:00"
     },
     {
         "id": 13,
+        "name": "Grammar Exercise 2",
         "study_session_id": 13,
-        "group_id": 13,
-        "created_at": "2025-02-14T13:00:00Z"
+        "group_id": 7,
+        "created_at": "2024-02-18T22:00:00"
     },
     {
         "id": 14,
+        "name": "Listening Practice 2",
         "study_session_id": 14,
-        "group_id": 14,
-        "created_at": "2025-02-15T13:00:00Z"
+        "group_id": 7,
+        "created_at": "2024-02-18T23:00:00"
     },
     {
         "id": 15,
+        "name": "Speaking Exercise 2",
         "study_session_id": 15,
-        "group_id": 15,
-        "created_at": "2025-02-16T13:00:00Z"
+        "group_id": 8,
+        "created_at": "2024-02-19T00:00:00"
     },
     {
         "id": 16,
+        "name": "Reading Practice 2",
         "study_session_id": 16,
-        "group_id": 16,
-        "created_at": "2025-02-17T13:00:00Z"
+        "group_id": 8,
+        "created_at": "2024-02-19T01:00:00"
     },
     {
         "id": 17,
+        "name": "Writing Exercise 2",
         "study_session_id": 17,
-        "group_id": 17,
-        "created_at": "2025-02-18T13:00:00Z"
+        "group_id": 9,
+        "created_at": "2024-02-19T02:00:00"
     },
     {
         "id": 18,
+        "name": "Vocabulary Quiz 2",
         "study_session_id": 18,
-        "group_id": 18,
-        "created_at": "2025-02-19T13:00:00Z"
+        "group_id": 9,
+        "created_at": "2024-02-19T03:00:00"
     },
     {
         "id": 19,
+        "name": "Grammar Quiz 2",
         "study_session_id": 19,
-        "group_id": 19,
-        "created_at": "2025-02-20T13:00:00Z"
+        "group_id": 10,
+        "created_at": "2024-02-19T04:00:00"
     },
     {
         "id": 20,
+        "name": "Conversation Practice 2",
         "study_session_id": 20,
-        "group_id": 20,
-        "created_at": "2025-02-21T13:00:00Z"
+        "group_id": 10,
+        "created_at": "2024-02-19T05:00:00"
     }
 ]
