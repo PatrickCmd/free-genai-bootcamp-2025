@@ -173,6 +173,107 @@ uvicorn app:app --reload
      }
      ```
 
+### Study Activities Endpoints
+
+1. **Get a Specific Study Activity by ID:**
+   - **Endpoint:** `GET /api/study_activities/{activity_id}`
+   - **Path Parameter:**
+     - `activity_id`: The ID of the study activity to retrieve.
+   - **Example:**
+     ```bash
+     # Basic request
+     curl -X GET "http://127.0.0.1:8000/api/study_activities/1"
+     
+     # Pretty print JSON response
+     curl -X GET "http://127.0.0.1:8000/api/study_activities/1" | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "id": 1,
+       "name": "Vocabulary Review",
+       "study_session_id": 1,
+       "group_id": 1,
+       "created_at": "2024-02-18T10:00:00",
+       "group_name": "Beginner Patois",
+       "review_items_count": 10
+     }
+     ```
+
+2. **Get Study Sessions for a Specific Study Activity with Pagination:**
+   - **Endpoint:** `GET /api/study_activities/{activity_id}/study_sessions`
+   - **Path Parameter:**
+     - `activity_id`: The ID of the study activity to retrieve study sessions for.
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1).
+     - `page_size`: The number of items per page (default: 10).
+   - **Example:**
+     ```bash
+     # Basic request
+     curl -X GET "http://127.0.0.1:8000/api/study_activities/1/study_sessions"
+     
+     # With pagination
+     curl -X GET "http://127.0.0.1:8000/api/study_activities/1/study_sessions?page=1&page_size=5"
+     
+     # Pretty print JSON response
+     curl -X GET "http://127.0.0.1:8000/api/study_activities/1/study_sessions" | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "study_sessions": [
+         {
+           "id": 1,
+           "activity_name": "Vocabulary Review",
+           "group_name": "Beginner Patois",
+           "start_time": "2024-02-18T10:00:00",
+           "end_time": null,
+           "review_items_count": 10
+         }
+       ],
+       "pagination": {
+         "current_page": 1,
+         "total_pages": 1,
+         "total_items": 1,
+         "items_per_page": 10
+       }
+     }
+     ```
+
+3. **Create a New Study Activity and Start Session:**
+   - **Endpoint:** `POST /api/study_activities`
+   - **Request Body:**
+     ```json
+     {
+       "name": "Vocabulary Review",
+       "group_id": 1
+     }
+     ```
+   - **Example:**
+     ```bash
+     # Create a new study activity
+     curl -X POST "http://127.0.0.1:8000/api/study_activities" \
+       -H "Content-Type: application/json" \
+       -d '{"name": "Vocabulary Review", "group_id": 1}'
+     
+     # Pretty print JSON response
+     curl -X POST "http://127.0.0.1:8000/api/study_activities" \
+       -H "Content-Type: application/json" \
+       -d '{"name": "Vocabulary Review", "group_id": 1}' | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "id": 21,
+       "name": "Vocabulary Review",
+       "study_session_id": 21,
+       "group_id": 1,
+       "created_at": "2024-02-19T15:30:00",
+       "group_name": "Beginner Patois",
+       "review_items_count": 0
+     }
+     ```
+
 ## Running Unit Tests
 
 To run the unit tests, use `pytest`:

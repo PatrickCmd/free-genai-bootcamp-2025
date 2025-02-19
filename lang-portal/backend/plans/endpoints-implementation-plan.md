@@ -559,7 +559,7 @@ def test_get_group_study_sessions():
 
    router = APIRouter()
    ```
-3. [ ] **Implement** `GET /api/study_activities/{id}`:
+3. [x] **Implement** `GET /api/study_activities/{id}`:
    ```python
    @router.get("/{activity_id}")
    def get_study_activity(activity_id: int):
@@ -584,7 +584,7 @@ def test_get_group_study_sessions():
    ```
    *(Adjust query and columns to match your actual schema.)*
 
-4. [ ] **Implement** `GET /api/study_activities/{activity_id}/study_sessions`:
+4. [x] **Implement** `GET /api/study_activities/{activity_id}/study_sessions`:
    ```python
    @router.get("/{activity_id}/study_sessions")
    def get_study_activity_sessions(activity_id: int, page: int = Query(1, ge=1)):
@@ -636,7 +636,7 @@ def test_get_group_study_sessions():
            }
        }
    ```
-5. [ ] **Implement** `POST /api/study_activities` (start session):
+5. [x] **Implement** `POST /api/study_activities` (start session):
    - The request params: `group_id` and `study_activity_id`.
    - This may create a new `study_sessions` record.
 

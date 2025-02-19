@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.words import router as words_router
 from routes.groups import router as groups_router
+from routes.study_activities import router as study_activities_router
 
 app = FastAPI(
     title="Language Portal API",
@@ -19,4 +20,5 @@ app.add_middleware(
 )
 
 app.include_router(words_router, prefix="/api")
-app.include_router(groups_router, prefix="/api") 
+app.include_router(groups_router, prefix="/api")
+app.include_router(study_activities_router, prefix="/api") 

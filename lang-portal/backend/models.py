@@ -33,4 +33,17 @@ class PaginatedGroups(BaseModel):
 
 class PaginatedStudySessions(BaseModel):
     study_sessions: List[StudySession]
-    pagination: dict 
+    pagination: dict
+
+class StudyActivity(BaseModel):
+    id: int
+    name: str
+    study_session_id: Optional[int]
+    group_id: Optional[int]
+    created_at: str
+    group_name: Optional[str]
+    review_items_count: int
+
+class StudyActivityCreate(BaseModel):
+    name: str
+    group_id: int 
