@@ -26,4 +26,20 @@ def test_get_words_with_pagination():
     assert response.status_code == 200
     assert "words" in response.json()
     assert response.json()["pagination"]["current_page"] == 2
-    assert response.json()["pagination"]["items_per_page"] == 5 
+    assert response.json()["pagination"]["items_per_page"] == 5
+
+def test_get_word():
+    response = client.get("/api/words/1")
+    assert response.status_code == 200
+    word = response.json()
+    assert "id" in word
+    assert "jamaican_patois" in word
+    assert "english" in word
+    assert "parts" in word
+    assert "correct_count" in word
+    assert "wrong_count" in word
+
+def test_get_word_not_found():
+    response = client.get("/api/words/9999")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Word not found" 

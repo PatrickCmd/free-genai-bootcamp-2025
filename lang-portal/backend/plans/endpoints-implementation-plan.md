@@ -184,7 +184,7 @@ def test_get_quick_stats():
 
    router = APIRouter()
    ```
-3. [ ] **Implement** `GET /api/words`:
+3. [x] **Implement** `GET /api/words`:
    - **Goal**: Return paginated list of words with stats (correct/wrong counts).
    - For demonstration, assume 100 items per page.  
    ```python
