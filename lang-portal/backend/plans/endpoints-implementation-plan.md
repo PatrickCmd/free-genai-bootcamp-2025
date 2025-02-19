@@ -712,8 +712,8 @@ def test_post_study_activities():
 
 ### Steps
 
-1. [ ] **Create** `routes/study_sessions.py`.
-2. [ ] **Import** modules:
+1. [x] **Create** `routes/study_sessions.py`.
+2. [x] **Import** modules:
    ```python
    from fastapi import APIRouter, Query, Body, HTTPException
    from lib.db import get_db_connection
@@ -721,7 +721,7 @@ def test_post_study_activities():
 
    router = APIRouter()
    ```
-3. [ ] **Implement** `GET /api/study_sessions`:
+3. [x] **Implement** `GET /api/study_sessions`:
    ```python
    @router.get("/")
    def list_study_sessions(page: int = Query(1, ge=1)):
@@ -767,7 +767,7 @@ def test_post_study_activities():
            }
        }
    ```
-4. [ ] **Implement** `GET /api/study_sessions/{id}`:
+4. [x] **Implement** `GET /api/study_sessions/{id}`:
    ```python
    @router.get("/{session_id}")
    def get_study_session(session_id: int):
@@ -796,7 +796,7 @@ def test_post_study_activities():
            "review_items_count": row[5]
        }
    ```
-5. [ ] **Implement** `GET /api/study_sessions/{session_id}/words`:
+5. [x] **Implement** `GET /api/study_sessions/{session_id}/words`:
    ```python
    @router.get("/{session_id}/words")
    def get_study_session_words(session_id: int, page: int = Query(1, ge=1)):
@@ -845,7 +845,7 @@ def test_post_study_activities():
            }
        }
    ```
-6. [ ] **Implement** `POST /api/study_sessions/{session_id}/words/{word_id}/review`:
+6. [x] **Implement** `POST /api/study_sessions/{session_id}/words/{word_id}/review`:
    - Request body: `{"correct": true/false}`
    - Insert a `word_review_items` record
 

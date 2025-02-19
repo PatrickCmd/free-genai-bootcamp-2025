@@ -46,4 +46,13 @@ class StudyActivity(BaseModel):
 
 class StudyActivityCreate(BaseModel):
     name: str
-    group_id: int 
+    group_id: int
+
+class WordReview(BaseModel):
+    id: int
+    word_id: int
+    study_session_id: int
+    correct: bool
+    created_at: str
+    word_jamaican_patois: str
+    word_english: str 

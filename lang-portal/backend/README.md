@@ -151,27 +151,6 @@ uvicorn app:app --reload
      ```bash
      curl -X GET "http://127.0.0.1:8000/api/groups/1/study_sessions?page=1&page_size=10"
      ```
-   - **Response Example:**
-     ```json
-     {
-       "study_sessions": [
-         {
-           "id": 1,
-           "activity_name": "Vocabulary Review",
-           "group_name": "Beginner Patois",
-           "start_time": "2024-02-18T10:00:00",
-           "end_time": null,
-           "review_items_count": 10
-         }
-       ],
-       "pagination": {
-         "current_page": 1,
-         "total_pages": 1,
-         "total_items": 1,
-         "items_per_page": 10
-       }
-     }
-     ```
 
 ### Study Activities Endpoints
 
@@ -271,6 +250,149 @@ uvicorn app:app --reload
        "created_at": "2024-02-19T15:30:00",
        "group_name": "Beginner Patois",
        "review_items_count": 0
+     }
+     ```
+
+### Study Sessions Endpoints
+
+1. **Get All Study Sessions with Pagination:**
+   - **Endpoint:** `GET /api/study_sessions`
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1).
+     - `page_size`: The number of items per page (default: 10).
+   - **Example:**
+     ```bash
+     # Basic request
+     curl -X GET "http://127.0.0.1:8000/api/study_sessions"
+     
+     # With pagination
+     curl -X GET "http://127.0.0.1:8000/api/study_sessions?page=1&page_size=5"
+     
+     # Pretty print JSON response
+     curl -X GET "http://127.0.0.1:8000/api/study_sessions" | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "study_sessions": [
+         {
+           "id": 1,
+           "activity_name": "Vocabulary Review",
+           "group_name": "Beginner Patois",
+           "start_time": "2024-02-18T10:00:00",
+           "end_time": null,
+           "review_items_count": 10
+         }
+       ],
+       "pagination": {
+         "current_page": 1,
+         "total_pages": 1,
+         "total_items": 1,
+         "items_per_page": 10
+       }
+     }
+     ```
+
+2. **Get a Specific Study Session by ID:**
+   - **Endpoint:** `GET /api/study_sessions/{session_id}`
+   - **Path Parameter:**
+     - `session_id`: The ID of the study session to retrieve.
+   - **Example:**
+     ```bash
+     # Basic request
+     curl -X GET "http://127.0.0.1:8000/api/study_sessions/1"
+     
+     # Pretty print JSON response
+     curl -X GET "http://127.0.0.1:8000/api/study_sessions/1" | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "id": 1,
+       "activity_name": "Vocabulary Review",
+       "group_name": "Beginner Patois",
+       "start_time": "2024-02-18T10:00:00",
+       "end_time": null,
+       "review_items_count": 10
+     }
+     ```
+
+3. **Get Words for a Specific Study Session with Pagination:**
+   - **Endpoint:** `GET /api/study_sessions/{session_id}/words`
+   - **Path Parameter:**
+     - `session_id`: The ID of the study session to retrieve words for.
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1).
+     - `page_size`: The number of items per page (default: 10).
+   - **Example:**
+     ```bash
+     # Basic request
+     curl -X GET "http://127.0.0.1:8000/api/study_sessions/1/words"
+     
+     # With pagination
+     curl -X GET "http://127.0.0.1:8000/api/study_sessions/1/words?page=1&page_size=5"
+     
+     # Pretty print JSON response
+     curl -X GET "http://127.0.0.1:8000/api/study_sessions/1/words" | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "words": [
+         {
+           "id": 1,
+           "jamaican_patois": "mi",
+           "english": "me/my",
+           "parts": {
+             "type": "pronoun",
+             "usage": "subject"
+           },
+           "correct_count": 5,
+           "wrong_count": 1
+         }
+       ],
+       "pagination": {
+         "current_page": 1,
+         "total_pages": 1,
+         "total_items": 1,
+         "items_per_page": 10
+       }
+     }
+     ```
+
+4. **Record a Word Review:**
+   - **Endpoint:** `POST /api/study_sessions/{session_id}/words/{word_id}/review`
+   - **Path Parameters:**
+     - `session_id`: The ID of the study session.
+     - `word_id`: The ID of the word being reviewed.
+   - **Request Body:**
+     ```json
+     {
+       "correct": true
+     }
+     ```
+   - **Example:**
+     ```bash
+     # Create a word review
+     curl -X POST "http://127.0.0.1:8000/api/study_sessions/1/words/1/review" \
+       -H "Content-Type: application/json" \
+       -d '{"correct": true}'
+     
+     # Pretty print JSON response
+     curl -X POST "http://127.0.0.1:8000/api/study_sessions/1/words/1/review" \
+       -H "Content-Type: application/json" \
+       -d '{"correct": true}' | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "id": 1,
+       "word_id": 1,
+       "study_session_id": 1,
+       "correct": true,
+       "created_at": "2024-02-19T15:30:00",
+       "word_jamaican_patois": "mi",
+       "word_english": "me/my"
      }
      ```
 
