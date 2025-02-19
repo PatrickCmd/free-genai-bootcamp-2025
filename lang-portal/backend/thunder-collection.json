@@ -1,0 +1,139 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "Lang Portal API",
+  "dateExported": "2024-02-19T15:30:00.000Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "name": "Groups",
+      "items": [
+        {
+          "name": "Get All Groups",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/groups?page=1&page_size=10"
+          }
+        },
+        {
+          "name": "Get Group by ID",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/groups/1"
+          }
+        },
+        {
+          "name": "Get Group Words",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/groups/1/words?page=1&page_size=10"
+          }
+        },
+        {
+          "name": "Get Group Study Sessions",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/groups/1/study_sessions?page=1&page_size=10"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Study Activities",
+      "items": [
+        {
+          "name": "Create Study Activity",
+          "request": {
+            "method": "POST",
+            "url": "http://127.0.0.1:8000/api/study_activities",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "raw": "{\n  \"name\": \"Vocabulary Review\",\n  \"group_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Study Activity by ID",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/study_activities/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Study Sessions",
+      "items": [
+        {
+          "name": "Get All Study Sessions",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/study_sessions?page=1&page_size=10"
+          }
+        },
+        {
+          "name": "Get Study Session by ID",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/study_sessions/1"
+          }
+        },
+        {
+          "name": "Get Session Words",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/study_sessions/1/words?page=1&page_size=10"
+          }
+        },
+        {
+          "name": "Create Word Review",
+          "request": {
+            "method": "POST",
+            "url": "http://127.0.0.1:8000/api/study_sessions/1/words/1/review",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "raw": "{\n  \"correct\": true\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "items": [
+        {
+          "name": "Get Last Study Session",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/dashboard/last_study_session"
+          }
+        },
+        {
+          "name": "Get Study Progress",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/dashboard/study_progress"
+          }
+        },
+        {
+          "name": "Get Quick Stats",
+          "request": {
+            "method": "GET",
+            "url": "http://127.0.0.1:8000/api/dashboard/quick-stats"
+          }
+        }
+      ]
+    }
+  ]
+} 

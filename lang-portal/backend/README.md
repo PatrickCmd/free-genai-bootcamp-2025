@@ -563,3 +563,84 @@ The collection is organized into four main folders:
 - Use the "Pretty" response formatter in Postman to view formatted JSON responses
 - Check the "Headers" tab to verify Content-Type is set correctly
 - For paginated endpoints, try different page and page_size values in the query parameters 
+
+## Testing with Thunder Client
+
+The API includes a Thunder Client collection file (`thunder-collection.json`) for VS Code users who prefer Thunder Client over Postman.
+
+### Setting Up Thunder Client
+
+1. Install the Thunder Client extension in VS Code
+   - Open VS Code
+   - Go to Extensions (Ctrl+Shift+X)
+   - Search for "Thunder Client"
+   - Click Install
+
+### Importing the Collection
+
+1. Open Thunder Client in VS Code
+   - Click the Thunder Client icon in the activity bar
+   - Or use the shortcut (Ctrl+Shift+P and search "Thunder Client")
+2. Click on "Collections" in the Thunder Client sidebar
+3. Click the "Import" button (or use the menu)
+4. Select the `thunder-collection.json` file
+5. The collection will be imported with all endpoints ready to test
+
+### Collection Structure
+
+The collection mirrors the Postman collection structure with four main folders:
+
+1. **Groups**
+   - Get All Groups
+   - Get Group by ID
+   - Get Group Words
+   - Get Group Study Sessions
+
+2. **Study Activities**
+   - Create Study Activity
+   - Get Study Activity by ID
+
+3. **Study Sessions**
+   - Get All Study Sessions
+   - Get Study Session by ID
+   - Get Session Words
+   - Create Word Review
+
+4. **Dashboard**
+   - Get Last Study Session
+   - Get Study Progress
+   - Get Quick Stats
+
+### Using the Collection
+
+1. Ensure your FastAPI server is running at `http://127.0.0.1:8000`
+2. In Thunder Client:
+   - Click on any request in the collection
+   - The request details will appear in the main panel
+   - Click "Send" to execute the request
+
+### Example Usage
+
+1. **Testing a POST Request:**
+   - Open "Study Activities" → "Create Study Activity"
+   - The request body is pre-configured:
+     ```json
+     {
+       "name": "Vocabulary Review",
+       "group_id": 1
+     }
+     ```
+   - Click "Send" to execute
+
+2. **Testing with Query Parameters:**
+   - Open any paginated endpoint (e.g., "Get All Groups")
+   - The URL includes default pagination: `?page=1&page_size=10`
+   - Modify these values as needed
+   - Click "Send" to test with different pagination
+
+### Tips
+
+- Use the "Preview" tab to see formatted JSON responses
+- The "Headers" tab shows all request headers
+- For POST requests, check the "Body" tab for the correct JSON structure
+- Use the "Query" tab to modify URL parameters easily 
