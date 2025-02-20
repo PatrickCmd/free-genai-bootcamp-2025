@@ -23,18 +23,18 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ## 1. Project Initialization
 
-1. [ ] **Create** a new Vite + React + TypeScript project:
+1. [x] **Create** a new Vite + React + TypeScript project:
    ```bash
    npm create vite@latest lang-portal-frontend -- --template react-ts
    cd lang-portal-frontend
    npm install
    ```
-2. [ ] **Install** Tailwind CSS:
+2. [x] **Install** Tailwind CSS:
    ```bash
    npm install -D tailwindcss postcss autoprefixer
    npx tailwindcss init -p
    ```
-3. [ ] **Configure** `tailwind.config.js`:
+3. [x] **Configure** `tailwind.config.js`:
    ```js
    /** @type {import('tailwindcss').Config} */
    export default {
@@ -48,17 +48,17 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
      plugins: [],
    }
    ```
-4. [ ] **Add** Tailwind imports to `src/index.css` or `src/App.css`:
+4. [x] **Add** Tailwind imports to `src/index.css` or `src/App.css`:
    ```css
    @tailwind base;
    @tailwind components;
    @tailwind utilities;
    ```
-5. [ ] **Start** dev server to confirm everything works:
+5. [x] **Start** dev server to confirm everything works:
    ```bash
    npm run dev
    ```
-6. [ ] **Optional**: Install additional packages (e.g., `axios`, `react-router-dom`, etc.):
+6. [x] **Optional**: Install additional packages (e.g., `axios`, `react-router-dom`, etc.):
    ```bash
    npm install react-router-dom axios
    ```
