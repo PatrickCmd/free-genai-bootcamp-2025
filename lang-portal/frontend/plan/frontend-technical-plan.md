@@ -139,32 +139,32 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **DashboardPage** (in `src/pages/DashboardPage.tsx`):
-   - [ ] **Layout**: Possibly wrap in a `<Layout>` if you created one.
-   - [ ] **Use** a custom hook or `axios` calls to fetch data from:
+1. [x] **DashboardPage** (in `src/pages/DashboardPage.tsx`):
+   - [x] **Layout**: Possibly wrap in a `<Layout>` if you created one.
+   - [x] **Use** a custom hook or `axios` calls to fetch data from:
      - `GET /api/dashboard/last_study_session`
      - `GET /api/dashboard/study_progress`
      - `GET /api/dashboard/quick_stats`
 
-2. [ ] **Sections**:
+2. [x] **Sections**:
    1. **Last Study Session**
-      - [ ] Render last session info: activity used, time, summary of correct vs wrong if available
+      - [x] Render last session info: activity used, time, summary of correct vs wrong if available
       - [ ] Link to group or session details if possible
    2. **Study Progress**
-      - [ ] Show total words studied: e.g. `3 / 124`
-      - [ ] Show a mastery progress bar (0%).
+      - [x] Show total words studied: e.g. `3 / 124`
+      - [x] Show a mastery progress bar (0%).
    3. **Quick Stats**
-      - [ ] success rate (80%), total sessions, active groups, study streak days
+      - [x] success rate (80%), total sessions, active groups, study streak days
    4. **Start Studying Button**
-      - [ ] Link to `/study_activities`
+      - [x] Link to `/study_activities`
 
 ### Steps
 
-1. [ ] **Setup** `useEffect` or `react-query` to fetch the three endpoints in parallel or sequentially.
-2. [ ] **Store** the results in state (e.g. `const [lastSession, setLastSession] = useState(null)`, etc.).
-3. [ ] **Render** the data in Tailwind-based cards or sections.
-4. [ ] **Add** a button: `<Link to="/study_activities">Start Studying</Link>`.
-5. [ ] **Test** by visiting `/dashboard` in the browser.
+1. [x] **Setup** `useEffect` or `react-query` to fetch the three endpoints in parallel or sequentially.
+2. [x] **Store** the results in state (e.g. `const [lastSession, setLastSession] = useState(null)`, etc.).
+3. [x] **Render** the data in Tailwind-based cards or sections.
+4. [x] **Add** a button: `<Link to="/study_activities">Start Studying</Link>`.
+5. [x] **Test** by visiting `/dashboard` in the browser.
 
 ---
 

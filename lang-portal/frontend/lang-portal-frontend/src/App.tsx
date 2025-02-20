@@ -1,8 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard';
 
 // Placeholder components until we implement them
-const Dashboard = () => <div className="text-center text-2xl">Dashboard Page</div>;
+const DashboardPage = () => <div className="text-center text-2xl">Dashboard Page</div>;
 const StudyActivitiesIndex = () => <div className="text-center text-2xl">Study Activities Page</div>;
 const StudyActivityShow = () => <div className="text-center text-2xl">Study Activity Show Page</div>;
 const StudyActivityLaunch = () => <div className="text-center text-2xl">Study Activity Launch Page</div>;

@@ -20,8 +20,19 @@ Frontend application for the Language Learning Portal built with React, TypeScri
 - [x] Create global Layout component
 - [x] Create common components (Header, Footer)
 
-### 3. Dashboard Page (`/dashboard`) ⏳
-### 4. Study Activities Index (`/study_activities`) 🔄
+### 3. Dashboard Page (`/dashboard`) ✅
+
+- [x] Set up API service
+- [x] Create dashboard types
+- [x] Implement LastSessionCard component
+- [x] Create Dashboard page with:
+  - Last Study Session
+  - Study Progress
+  - Quick Stats
+- [x] Add loading states
+- [x] Style with Tailwind CSS
+
+### 4. Study Activities Index (`/study_activities`) ⏳
 ### 5. Study Activity Show (`/study_activities/:id`) 🔄
 ### 6. Study Activity Launch (`/study_activities/:id/launch`) 🔄
 ### 7. Words Index (`/words`) 🔄
@@ -32,22 +43,6 @@ Frontend application for the Language Learning Portal built with React, TypeScri
 ### 12. Study Session Show (`/study_sessions/:id`) 🔄
 ### 13. Settings Page (`/settings`) 🔄
 ### 14. Testing and Final Review 🔄
-
-## Development
-
-To start the development server:
-
-```bash
-npm run dev
-```
-
-## Building
-
-To create a production build:
-
-```bash
-npm run build
-```
 
 ## Setup Steps Completed
 
@@ -68,5 +63,81 @@ npm run build
    - Configured BrowserRouter in main.tsx
    - Set up route structure in App.tsx
    - Created placeholder components for all pages
+6. Implemented Dashboard Page:
+   - Created API service for backend communication
+   - Added TypeScript interfaces for type safety
+   - Built responsive dashboard layout with 3 main cards
+   - Implemented loading states and error handling
+   - Added navigation to other sections
 
-Global setup is now complete! Ready to proceed with implementing the Dashboard Page. 
+## Dashboard Implementation
+
+The dashboard consists of three main components:
+
+![Dashboard Page](./screenshots/dashboard.png)
+
+### Last Study Session Card
+Shows information about the most recent study session including:
+- Activity name
+- Group name
+- Number of words reviewed
+- Session timestamp
+- Links to view details or start a new session
+
+
+### Study Progress Card
+Displays overall study progress including:
+- Total words reviewed
+- Accuracy rate with progress bar
+- Words by group statistics
+
+
+### Quick Stats Card
+Shows key statistics including:
+- Success rate
+- Words learned vs total words
+- Study streak
+- Total study time
+
+
+## Development
+
+To start the development server:
+
+```bash
+npm run dev
+```
+
+## Building
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+## API Integration
+
+The frontend communicates with the backend API at `http://127.0.0.1:8000/api` using the following endpoints:
+
+- `GET /dashboard/last_study_session`
+- `GET /dashboard/study_progress`
+- `GET /dashboard/quick-stats`
+
+## Component Structure
+
+```
+src/
+├── components/
+│   ├── dashboard/
+│   │   └── LastSessionCard.tsx
+│   ├── Layout.tsx
+│   ├── Header.tsx
+│   └── Sidebar.tsx
+├── pages/
+│   └── Dashboard.tsx
+├── services/
+│   └── api.ts
+└── types/
+    └── dashboard.ts
+``` 
