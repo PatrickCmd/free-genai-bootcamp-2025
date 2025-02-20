@@ -67,11 +67,11 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ## 2. Global Setup (Layout, Router, Tailwind)
 
-1. [ ] **Create** a `src/router.tsx` or `src/Router.tsx` to define routes. Install React Router if not done:
+1. [x] **Create** a `src/router.tsx` or `src/Router.tsx` to define routes. Install React Router if not done:
    ```bash
    npm install react-router-dom
    ```
-2. [ ] **Set up** `<BrowserRouter>` in `main.tsx`:
+2. [x] **Set up** `<BrowserRouter>` in `main.tsx`:
    ```tsx
    import React from 'react'
    import ReactDOM from 'react-dom/client'
@@ -87,7 +87,7 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
      </React.StrictMode>,
    )
    ```
-3. [ ] **In** `App.tsx`, define your routes:
+3. [x] **In** `App.tsx`, define your routes:
    ```tsx
    import { Routes, Route } from 'react-router-dom'
    import DashboardPage from './pages/DashboardPage'
@@ -128,7 +128,7 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
    export default App
    ```
-4. [ ] **Create** a global layout (optional) for a navbar or sidebar:
+4. [x] **Create** a global layout (optional) for a navbar or sidebar:
    - Example: `src/components/Layout.tsx` with a header, sidebar, etc.
 
 ---

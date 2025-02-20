@@ -13,8 +13,14 @@ Frontend application for the Language Learning Portal built with React, TypeScri
 - [x] Verify setup works
 - [x] Install additional packages
 
-### 2. Global Setup (Layout, Router, Tailwind) ⏳
-### 3. Dashboard Page (`/dashboard`) 🔄
+### 2. Global Setup (Layout, Router, Tailwind) ✅
+
+- [x] Set up BrowserRouter in main.tsx
+- [x] Define routes in App.tsx
+- [x] Create global Layout component
+- [x] Create common components (Header, Footer)
+
+### 3. Dashboard Page (`/dashboard`) ⏳
 ### 4. Study Activities Index (`/study_activities`) 🔄
 ### 5. Study Activity Show (`/study_activities/:id`) 🔄
 ### 6. Study Activity Launch (`/study_activities/:id/launch`) 🔄
@@ -57,5 +63,10 @@ npm run build
    ```bash
    npm install react-router-dom axios
    ```
+5. Setting up Global Layout and Routing:
+   - Created Layout component with Header and Footer
+   - Configured BrowserRouter in main.tsx
+   - Set up route structure in App.tsx
+   - Created placeholder components for all pages
 
-Project initialization is now complete! Ready to proceed with Global Setup (Layout, Router, Tailwind). 
+Global setup is now complete! Ready to proceed with implementing the Dashboard Page. 
