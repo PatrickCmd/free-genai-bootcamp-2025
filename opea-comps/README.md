@@ -42,12 +42,18 @@ echo "HOST_IP: $HOST_IP"
 
 ```sh
 NO_PROXY=localhost
-LLM_ENDPOINT_PORT=8008
+LLM_ENDPOINT_PORT=9000
 LLM_MODEL_ID="llama3.2:3b"
 ```
 
 ```sh
 host_ip=$HOST_IP no_proxy=$NO_PROXY LLM_MODEL_ID=$LLM_MODEL_ID docker-compose up -d
+```
+
+OR
+
+```sh
+host_ip=$HOST_IP no_proxy=$NO_PROXY LLM_ENDPOINT_PORT=$LLM_ENDPOINT_PORT LLM_MODEL_ID=$LLM_MODEL_ID docker-compose up -d
 ```
 
 ### Download/pull the model
