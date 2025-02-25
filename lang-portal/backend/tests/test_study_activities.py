@@ -74,4 +74,44 @@ def test_create_study_activity_invalid_group():
         json={"name": "New Vocabulary Review", "group_id": 9999}
     )
     assert response.status_code == 404
-    assert response.json()["detail"] == "Group not found" 
+    assert response.json()["detail"] == "Group not found"
+
+def test_get_study_activities():
+    response = client.get("/api/study_activities")
+    assert response.status_code == 200
+    data = response.json()
+    assert "study_activities" in data
+    assert "pagination" in data
+    assert "current_page" in data["pagination"]
+    assert "total_pages" in data["pagination"]
+    assert "total_items" in data["pagination"]
+    assert "items_per_page" in data["pagination"]
+
+def test_get_study_activities_with_pagination():
+    response = client.get("/api/study_activities?page=1&page_size=5")
+    assert response.status_code == 200
+    data = response.json()
+    assert "study_activities" in data
+    assert data["pagination"]["current_page"] == 1
+    assert data["pagination"]["items_per_page"] == 5
+
+def test_get_activity_words():
+    response = client.get("/api/study_activities/1/words")
+    assert response.status_code == 200
+    data = response.json()
+    assert "words" in data
+    assert "pagination" in data
+    
+    if len(data["words"]) > 0:
+        word = data["words"][0]
+        assert "id" in word
+        assert "jamaican_patois" in word
+        assert "english" in word
+        assert "parts" in word
+        assert "correct_count" in word
+        assert "wrong_count" in word
+
+def test_get_activity_words_not_found():
+    response = client.get("/api/study_activities/9999/words")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Study activity not found" 

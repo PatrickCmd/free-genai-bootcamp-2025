@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException, Path, Query, Body
 from lib.db import get_db_connection
-from models import StudyActivity, PaginatedStudySessions, StudyActivityCreate
+from models import StudyActivity, PaginatedStudySessions, StudyActivityCreate, PaginatedStudyActivities, PaginatedWords
 from utils import paginate
 from datetime import datetime
+import json
 
 router = APIRouter()
 
@@ -197,4 +198,143 @@ def create_study_activity(activity: StudyActivityCreate = Body(...)):
             review_items_count=row[6]
         ).model_dump()
         
-        return study_activity 
+        return study_activity
+
+@router.get("/study_activities", response_model=PaginatedStudyActivities, tags=["Study Activities"])
+def get_study_activities(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=100)
+):
+    """
+    Retrieve a paginated list of study activities.
+
+    - **page**: The page number to retrieve (default: 1)
+    - **page_size**: The number of items per page (default: 10)
+    """
+    with get_db_connection() as conn:
+        # Base query
+        query = """
+        SELECT sa.id, sa.name, sa.study_session_id, sa.group_id, sa.created_at,
+               g.name as group_name,
+               (SELECT COUNT(*) FROM word_review_items wri 
+                WHERE wri.study_session_id = sa.study_session_id) as review_items_count
+        FROM study_activities sa
+        LEFT JOIN groups g ON g.id = sa.group_id
+        ORDER BY sa.created_at DESC
+        """
+        
+        # Apply pagination
+        paginated_query = paginate(query, page, page_size)
+        cursor = conn.execute(paginated_query)
+        rows = cursor.fetchall()
+        
+        # Convert rows to list of activities
+        activities = [
+            {
+                "id": row[0],
+                "name": row[1],
+                "study_session_id": row[2],
+                "group_id": row[3],
+                "created_at": row[4],
+                "group_name": row[5],
+                "review_items_count": row[6]
+            }
+            for row in rows
+        ]
+
+        # Get total count for pagination
+        total_items = conn.execute("SELECT COUNT(*) FROM study_activities").fetchone()[0]
+        total_pages = (total_items + page_size - 1) // page_size
+        
+        return {
+            "study_activities": activities,
+            "pagination": {
+                "current_page": page,
+                "total_pages": total_pages,
+                "total_items": total_items,
+                "items_per_page": page_size
+            }
+        }
+
+@router.get("/study_activities/{activity_id}/words", response_model=PaginatedWords, tags=["Study Activities"])
+def get_activity_words(
+    activity_id: int = Path(..., title="The ID of the study activity to retrieve words for"),
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=100)
+):
+    """
+    Retrieve a paginated list of words for a specific study activity.
+
+    - **activity_id**: The ID of the study activity to retrieve words for
+    - **page**: The page number to retrieve (default: 1)
+    - **page_size**: The number of items per page (default: 10)
+    """
+    with get_db_connection() as conn:
+        # First check if the activity exists
+        activity = conn.execute(
+            "SELECT group_id FROM study_activities WHERE id = ?",
+            (activity_id,)
+        ).fetchone()
+
+        if not activity:
+            raise HTTPException(status_code=404, detail="Study activity not found")
+
+        group_id = activity[0]
+
+        # Get words for the group
+        query = """
+        SELECT w.id, w.jamaican_patois, w.english, w.parts,
+               COALESCE(SUM(CASE WHEN wr.correct THEN 1 ELSE 0 END), 0) as correct_count,
+               COALESCE(SUM(CASE WHEN NOT wr.correct THEN 1 ELSE 0 END), 0) as wrong_count
+        FROM words w
+        JOIN word_groups wg ON w.id = wg.word_id
+        LEFT JOIN word_reviews wr ON w.id = wr.word_id
+        WHERE wg.group_id = ?
+        GROUP BY w.id
+        """
+        
+        paginated_query = paginate(query, page, page_size)
+        cursor = conn.execute(paginated_query, (group_id,))
+        rows = cursor.fetchall()
+
+        if not rows:
+            raise HTTPException(
+                status_code=404,
+                detail="No words found for this activity"
+            )
+
+        # Convert rows to list of Word models
+        words = [
+            {
+                "id": row[0],
+                "jamaican_patois": row[1],
+                "english": row[2],
+                "parts": json.loads(row[3]) if row[3] else None,
+                "correct_count": row[4],
+                "wrong_count": row[5]
+            }
+            for row in rows
+        ]
+
+        # Get total count for pagination
+        total_items = conn.execute(
+            """
+            SELECT COUNT(DISTINCT w.id)
+            FROM words w
+            JOIN word_groups wg ON w.id = wg.word_id
+            WHERE wg.group_id = ?
+            """,
+            (group_id,)
+        ).fetchone()[0]
+
+        total_pages = (total_items + page_size - 1) // page_size
+
+        return {
+            "words": words,
+            "pagination": {
+                "current_page": page,
+                "total_pages": total_pages,
+                "total_items": total_items,
+                "items_per_page": page_size
+            }
+        } 

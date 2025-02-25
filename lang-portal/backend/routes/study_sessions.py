@@ -204,28 +204,26 @@ def create_word_review(
             raise HTTPException(status_code=404, detail="Study session not found")
 
         # Check if word exists
-        word_exists = conn.execute(
-            "SELECT 1 FROM words WHERE id = ?",
+        word = conn.execute(
+            """
+            SELECT jamaican_patois, english 
+            FROM words 
+            WHERE id = ?
+            """,
             (word_id,)
         ).fetchone()
         
-        if not word_exists:
+        if not word:
             raise HTTPException(status_code=404, detail="Word not found")
 
-        # Check if word is part of this session
-        word_in_session = conn.execute(
+        # Create word review item if it doesn't exist
+        conn.execute(
             """
-            SELECT 1 FROM word_review_items 
-            WHERE study_session_id = ? AND word_id = ?
+            INSERT OR IGNORE INTO word_review_items (study_session_id, word_id)
+            VALUES (?, ?)
             """,
             (session_id, word_id)
-        ).fetchone()
-        
-        if not word_in_session:
-            raise HTTPException(
-                status_code=400, 
-                detail="Word is not part of this study session"
-            )
+        )
 
         # Create the word review
         current_time = datetime.now().isoformat()
@@ -238,23 +236,12 @@ def create_word_review(
         )
         review_id = cursor.lastrowid
 
-        # Return the created review
-        query = """
-        SELECT wr.id, wr.word_id, wr.study_session_id, wr.correct, wr.created_at,
-               w.jamaican_patois, w.english
-        FROM word_reviews wr
-        JOIN words w ON w.id = wr.word_id
-        WHERE wr.id = ?
-        """
-        cursor = conn.execute(query, (review_id,))
-        row = cursor.fetchone()
-        
-        return WordReview(
-            id=row[0],
-            word_id=row[1],
-            study_session_id=row[2],
-            correct=row[3],
-            created_at=row[4],
-            word_jamaican_patois=row[5],
-            word_english=row[6]
-        ).model_dump() 
+        return {
+            "id": review_id,
+            "word_id": word_id,
+            "study_session_id": session_id,
+            "correct": correct,
+            "created_at": current_time,
+            "word_jamaican_patois": word[0],
+            "word_english": word[1]
+        } 
