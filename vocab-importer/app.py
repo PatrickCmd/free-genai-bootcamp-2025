@@ -3,7 +3,7 @@ import os
 import json
 from dotenv import load_dotenv
 from llm import generate_vocabulary, check_api_status
-from utils.helpers import extract_json_from_text
+from utils.helpers import extract_json_from_text, slugify
 from data.schema import validate_words
 from data.export import export_words, export_group, export_word_groups
 
@@ -70,7 +70,7 @@ with tab1:
         elif llm_provider == "Groq":
             model = st.selectbox(
                 "Model",
-                options=["llama-3-70b", "llama-3-8b", "mixtral-8x7b"],
+                options=["llama3-70b-8192", "llama3-8b-8192", "mixtral-8x7b-32768", "gemma2-9b-it", "qwen-2.5-32b"],
                 index=0
             )
         elif llm_provider == "AWS Bedrock":
@@ -178,7 +178,10 @@ with tab1:
                         if 'id' not in word:
                             word['id'] = None
                     
-                    filepath = export_words(st.session_state.generated_words)
+                    filepath = export_words(
+                        st.session_state.generated_words, 
+                        theme=st.session_state.theme
+                    )
                     with open(filepath, 'r') as f:
                         words_json = f.read()
                     st.download_button(
@@ -220,7 +223,10 @@ with tab1:
                         if 'id' not in word:
                             word['id'] = None
                     
-                    words_filepath = export_words(st.session_state.generated_words)
+                    words_filepath = export_words(
+                        st.session_state.generated_words,
+                        theme=st.session_state.theme
+                    )
                     
                     # Export group
                     group_filepath = export_group(st.session_state.theme)
@@ -236,14 +242,19 @@ with tab1:
                     group_id = group_data[0].get('id', 1) if group_data and len(group_data) > 0 else 1
                     
                     # Export word-group associations
-                    associations_filepath = export_word_groups(word_ids, group_id)
+                    associations_filepath = export_word_groups(
+                        word_ids, 
+                        group_id,
+                        theme=st.session_state.theme
+                    )
                     
                     # Create a zip file with all exports
                     import zipfile
                     from datetime import datetime
                     
                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    zip_filepath = f"exports/export_{timestamp}.zip"
+                    theme_slug = slugify(st.session_state.theme) if st.session_state.theme else "export"
+                    zip_filepath = f"exports/{theme_slug}_{timestamp}.zip"
                     
                     with zipfile.ZipFile(zip_filepath, 'w') as zipf:
                         zipf.write(words_filepath, os.path.basename(words_filepath))

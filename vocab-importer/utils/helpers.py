@@ -1,6 +1,7 @@
 import json
 import re
 from datetime import datetime
+import unicodedata
 
 def extract_json_from_text(text):
     """
@@ -49,7 +50,7 @@ def generate_timestamp():
     Returns:
         str: Current timestamp in ISO format
     """
-    return datetime.now().isoformat()
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
 
 def assign_ids(items, start_id=1):
     """
@@ -64,4 +65,33 @@ def assign_ids(items, start_id=1):
     """
     for i, item in enumerate(items):
         item['id'] = start_id + i
-    return items 
+    return items
+
+def slugify(text):
+    """
+    Convert text to a URL-friendly slug
+    
+    Args:
+        text (str): Text to slugify
+        
+    Returns:
+        str: Slugified text
+    """
+    # Convert to lowercase and normalize unicode characters
+    text = unicodedata.normalize('NFKD', text.lower())
+    
+    # Replace non-alphanumeric characters with hyphens
+    text = re.sub(r'[^a-z0-9]+', '-', text)
+    
+    # Remove leading/trailing hyphens
+    text = text.strip('-')
+    
+    # Limit length
+    if len(text) > 50:
+        text = text[:50]
+    
+    # Ensure we have a valid slug
+    if not text:
+        text = 'unnamed'
+    
+    return text 

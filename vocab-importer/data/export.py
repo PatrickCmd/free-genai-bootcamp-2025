@@ -2,15 +2,16 @@ import json
 import os
 from datetime import datetime
 from .schema import validate_words, validate_groups, validate_word_groups
-from utils.helpers import assign_ids
+from utils.helpers import assign_ids, slugify
 
-def export_words(words, filename=None):
+def export_words(words, filename=None, theme=None):
     """
     Export words to a JSON file
     
     Args:
         words (list): List of word dictionaries
         filename (str, optional): Output filename. If None, a default name is generated.
+        theme (str, optional): Theme/category name to include in the filename.
         
     Returns:
         str: Path to the exported file
@@ -43,7 +44,8 @@ def export_words(words, filename=None):
     # Generate filename if not provided
     if filename is None:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"words_{timestamp}.json"
+        theme_slug = slugify(theme) if theme else "words"
+        filename = f"{theme_slug}_words_{timestamp}.json"
     
     # Ensure the exports directory exists
     os.makedirs("exports", exist_ok=True)
@@ -71,7 +73,8 @@ def export_group(name, filename=None):
     # Generate filename if not provided
     if filename is None:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"group_{timestamp}.json"
+        theme_slug = slugify(name)
+        filename = f"{theme_slug}_group_{timestamp}.json"
     
     # Ensure the exports directory exists
     os.makedirs("exports", exist_ok=True)
@@ -83,7 +86,7 @@ def export_group(name, filename=None):
     
     return filepath
 
-def export_word_groups(word_ids, group_id, filename=None):
+def export_word_groups(word_ids, group_id, filename=None, theme=None):
     """
     Export word-group associations to a JSON file
     
@@ -91,6 +94,7 @@ def export_word_groups(word_ids, group_id, filename=None):
         word_ids (list): List of word IDs
         group_id (int): Group ID
         filename (str, optional): Output filename. If None, a default name is generated.
+        theme (str, optional): Theme/category name to include in the filename.
         
     Returns:
         str: Path to the exported file
@@ -108,7 +112,8 @@ def export_word_groups(word_ids, group_id, filename=None):
     # Generate filename if not provided
     if filename is None:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"word_groups_{timestamp}.json"
+        theme_slug = slugify(theme) if theme else "associations"
+        filename = f"{theme_slug}_word_groups_{timestamp}.json"
     
     # Ensure the exports directory exists
     os.makedirs("exports", exist_ok=True)
