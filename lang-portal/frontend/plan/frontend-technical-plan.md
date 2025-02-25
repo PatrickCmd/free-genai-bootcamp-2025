@@ -174,23 +174,23 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **ActivitiesIndexPage** (in `src/pages/ActivitiesIndexPage.tsx`):
-   - [ ] **Fetch** data from `GET /api/study_activities`
+1. [x] **ActivitiesIndexPage** (in `src/pages/ActivitiesIndexPage.tsx`):
+   - [x] **Fetch** data from `GET /api/study_activities`
      - This endpoint may or may not exist as a "list all activities." If needed, you might adjust to a custom endpoint or a static list.  
-   - [ ] **Render** a list of **ActivityCard** components.
+   - [x] **Render** a list of **ActivityCard** components.
 
-2. [ ] **ActivityCard** (in `src/components/ActivityCard.tsx`):
-   - [ ] Props:
+2. [x] **ActivityCard** (in `src/components/ActivityCard.tsx`):
+   - [x] Props:
      - `name`
      - `thumbnail_url`
      - (optional) `description` if needed
-   - [ ] **Layout** in Tailwind: an image, name, and two buttons:
+   - [x] **Layout** in Tailwind: an image, name, and two buttons:
      - **Launch** → goes to `"/study_activities/:id/launch"`
      - **View** → goes to `"/study_activities/:id"`
 
 ### Steps
 
-1. [ ] **Create** a small interface `IActivity` in TypeScript for type-checking:
+1. [x] **Create** a small interface `IActivity` in TypeScript for type-checking:
    ```ts
    interface IActivity {
      id: number
@@ -199,8 +199,8 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
      description: string
    }
    ```
-2. [ ] **Fetch** activities, store in state, map over them to render `<ActivityCard />`.
-3. [ ] **Test** the page by navigating to `/study_activities`.
+2. [x] **Fetch** activities, store in state, map over them to render `<ActivityCard />`.
+3. [x] **Test** the page by navigating to `/study_activities`.
 
 ---
 
@@ -210,21 +210,21 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **ActivityShowPage** (in `src/pages/ActivityShowPage.tsx`):
-   - [ ] **Fetch** from `GET /api/study_activities/:id` for details:
+1. [x] **ActivityShowPage** (in `src/pages/ActivityShowPage.tsx`):
+   - [x] **Fetch** from `GET /api/study_activities/:id` for details:
      - name, thumbnail, description
-   - [ ] **Fetch** from `GET /api/study_activities/:id/study_sessions` for paginated list
+   - [x] **Fetch** from `GET /api/study_activities/:id/study_sessions` for paginated list
 2. [ ] **SessionsList** (in `src/components/SessionsList.tsx` maybe) to display:
    - `id`, `activity_name`, `group_name`, `start_time`, `end_time`, `review_items_count`
    - Paginated: handle `page` param if provided by the API.
 
 ### Steps
 
-1. [ ] **Get** the `id` from `useParams()`.
-2. [ ] **Fetch** activity details → store in state, render top portion with name, thumbnail, description.
-3. [ ] **Fetch** the sessions → store in state, render in a table or card list.
-4. [ ] **Implement** pagination logic (e.g., next/prev buttons).
-5. [ ] **Add** a button to **Launch** the activity (link to `/:id/launch`).
+1. [x] **Get** the `id` from `useParams()`.
+2. [x] **Fetch** activity details → store in state, render top portion with name, thumbnail, description.
+3. [x] **Fetch** the sessions → store in state, render in a table or card list.
+4. [x] **Implement** pagination logic (e.g., next/prev buttons).
+5. [x] **Add** a button to **Launch** the activity (link to `/:id/launch`).
 
 ---
 
@@ -234,19 +234,19 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **ActivityLaunchPage**:
-   - [ ] **Display** the activity name (from `GET /api/study_activities/:id` or pass from previous page).
-   - [ ] **Form**: `<select>` for group, `<button>` to launch
+1. [x] **ActivityLaunchPage**:
+   - [x] **Display** the activity name (from `GET /api/study_activities/:id` or pass from previous page).
+   - [x] **Form**: `<select>` for group, `<button>` to launch
      - **Groups**: Fetch from `GET /api/groups` or similar to populate a dropdown.
-   - [ ] **On** form submit → call `POST /api/study_activities` with `group_id` and `study_activity_id`.
-   - [ ] On success: open a new tab with the returned URL (if that’s how your activity is launched externally), then redirect to the newly created study session’s page (the backend might return `id` of the new study session).
+   - [x] **On** form submit → call `POST /api/study_activities` with `group_id` and `study_activity_id`.
+   - [x] On success: open a new tab with the returned URL (if that’s how your activity is launched externally), then redirect to the newly created study session’s page (the backend might return `id` of the new study session).
 
 ### Steps
 
-1. [ ] **Fetch** activity name for UI.
-2. [ ] **Fetch** group list for the select input.
-3. [ ] **Submit** form with `study_activity_id` (from route params) + selected `group_id`.
-4. [ ] **Handle** success → navigate to `/study_sessions/:newSessionId`.
+1. [x] **Fetch** activity name for UI.
+2. [x] **Fetch** group list for the select input.
+3. [x] **Submit** form with `study_activity_id` (from route params) + selected `group_id`.
+4. [x] **Handle** success → navigate to `/study_sessions/:newSessionId`.
 
 ---
 
@@ -256,19 +256,19 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **WordsIndexPage** (in `src/pages/WordsIndexPage.tsx`):
-   - [ ] **Fetch** from `GET /api/words?page=1&...`
-   - [ ] **Render** a table:
+1. [x] **WordsIndexPage** (in `src/pages/WordsIndexPage.tsx`):
+   - [x] **Fetch** from `GET /api/words?page=1&...`
+   - [x] **Render** a table:
      - Jamaican Patois
      - English
      - Correct Count
      - Wrong Count
-   - [ ] **Pagination** controls
-   - [ ] Clicking Jamaican Patois → `"/words/:id"`
+   - [x] **Pagination** controls
+   - [x] Clicking Jamaican Patois → `"/words/:id"`
 
 ### Steps
 
-1. [ ] **Define** `IWord` interface:
+1. [x] **Define** `IWord` interface:
    ```ts
    interface IWord {
      id: number
@@ -278,9 +278,9 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
      wrong_count: number
    }
    ```
-2. [ ] **Fetch** `items` and `pagination` from the API response, store in state.
-3. [ ] **Map** over items to display in table rows.
-4. [ ] **Implement** next/prev page if `pagination` indicates more pages.
+2. [x] **Fetch** `items` and `pagination` from the API response, store in state.
+3. [x] **Map** over items to display in table rows.
+4. [x] **Implement** next/prev page if `pagination` indicates more pages.
 
 ---
 
@@ -290,17 +290,17 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **WordShowPage** (in `src/pages/WordShowPage.tsx`):
-   - [ ] **Fetch** from `GET /api/words/:id`
-   - [ ] **Display** Jamaican Patois, English, stats (correct vs. wrong).
-   - [ ] **Render** group tags or pills: if user clicks, route to `"/groups/:groupId"`.
+1. [x] **WordShowPage** (in `src/pages/WordShowPage.tsx`):
+   - [x] **Fetch** from `GET /api/words/:id`
+   - [x] **Display** Jamaican Patois, English, stats (correct vs. wrong).
+   - [x] **Render** group tags or pills: if user clicks, route to `"/groups/:groupId"`.
 
 ### Steps
 
-1. [ ] **Get** `id` from `useParams()`.
-2. [ ] **Fetch** word data, store in state: e.g., `const [word, setWord] = useState<WordType | null>(null)`.
-3. [ ] **Render** the details in a card or simple layout.
-4. [ ] **Test** by navigating to `/words/1` (assuming word 1 exists).
+1. [x] **Get** `id` from `useParams()`.
+2. [x] **Fetch** word data, store in state: e.g., `const [word, setWord] = useState<WordType | null>(null)`.
+3. [x] **Render** the details in a card or simple layout.
+4. [x] **Test** by navigating to `/words/1` (assuming word 1 exists).
 
 ---
 
@@ -310,15 +310,15 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **GroupsIndexPage** (in `src/pages/GroupsIndexPage.tsx`):
-   - [ ] **Fetch** from `GET /api/groups?page=1`
-   - [ ] **Render** table: (Group Name, Word Count)
-   - [ ] **Pagination** logic
-   - [ ] Clicking group name → `"/groups/:id"`
+1. [x] **GroupsIndexPage** (in `src/pages/GroupsIndexPage.tsx`):
+   - [x] **Fetch** from `GET /api/groups?page=1`
+   - [x] **Render** table: (Group Name, Word Count)
+   - [x] **Pagination** logic
+   - [x] Clicking group name → `"/groups/:id"`
 
 ### Steps
 
-1. [ ] **Define** `IGroup` interface:
+1. [x] **Define** `IGroup` interface:
    ```ts
    interface IGroup {
      id: number
@@ -326,8 +326,8 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
      word_count: number
    }
    ```
-2. [ ] **Fetch** data, store, map to table rows.
-3. [ ] **Implement** next/prev for pagination if needed.
+2. [x] **Fetch** data, store, map to table rows.
+3. [x] **Implement** next/prev for pagination if needed.
 
 ---
 
@@ -337,22 +337,22 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **GroupShowPage**:
-   - [ ] **Fetch** from `GET /api/groups/:id` → group name + stats (word count).
-   - [ ] **Words** in group (paginated):
+1. [x] **GroupShowPage**:
+   - [x] **Fetch** from `GET /api/groups/:id` → group name + stats (word count).
+   - [x] **Words** in group (paginated):
      - from `GET /api/groups/:id/words`
      - Reuse `WordsList` or similar if you want a consistent table.
-   - [ ] **Study Sessions** for this group:
+   - [x] **Study Sessions** for this group:
      - from `GET /api/groups/:id/study_sessions`
      - Reuse `SessionsList` to keep consistent UI.
 
 ### Steps
 
-1. [ ] **Get** `id` from `useParams()`.
-2. [ ] **Fetch** group details (name, stats).
-3. [ ] **Fetch** words in the group (paginated).
-4. [ ] **Fetch** sessions in the group (paginated).
-5. [ ] **Render** them in separate sections.
+1. [x] **Get** `id` from `useParams()`.
+2. [x] **Fetch** group details (name, stats).
+3. [x] **Fetch** words in the group (paginated).
+4. [x] **Fetch** sessions in the group (paginated).
+5. [x] **Render** them in separate sections.
 
 ---
 
@@ -362,18 +362,18 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **StudySessionsIndexPage**:
-   - [ ] **Fetch** from `GET /api/study_sessions?page=1`
-   - [ ] Render columns: `id`, `activity name`, `group name`, `start time`, `end time`, `review items`.
-   - [ ] Pagination logic
-   - [ ] Click `id` → go to `"/study_sessions/:id"`
+1. [x] **StudySessionsIndexPage**:
+   - [x] **Fetch** from `GET /api/study_sessions?page=1`
+   - [x] Render columns: `id`, `activity name`, `group name`, `start time`, `end time`, `review items`.
+   - [x] Pagination logic
+   - [x] Click `id` → go to `"/study_sessions/:id"`
 
 ### Steps
 
-1. [ ] **Define** session interface.
-2. [ ] **Fetch** data, store, show table.
-3. [ ] **Handle** pagination.  
-4. [ ] **Test** by navigating to `/study_sessions`.
+1. [x] **Define** session interface.
+2. [x] **Fetch** data, store, show table.
+3. [x] **Handle** pagination.  
+4. [x] **Test** by navigating to `/study_sessions`.
 
 ---
 
@@ -383,18 +383,18 @@ Below is a high-level **step-by-step plan** for building a **React + TypeScript 
 
 ### Components
 
-1. [ ] **StudySessionShowPage**:
-   - [ ] **Fetch** from `GET /api/study_sessions/:id`
+1. [x] **StudySessionShowPage**:
+   - [x] **Fetch** from `GET /api/study_sessions/:id`
      - activity name, group name, start time, end time, review items count
-   - [ ] **Fetch** words from `GET /api/study_sessions/:id/words`
+   - [x] **Fetch** words from `GET /api/study_sessions/:id/words`
      - Possibly reusing a `WordsList` to display them in a paginated manner.
 
 ### Steps
 
-1. [ ] **Get** `id` from `useParams()`.
-2. [ ] **Fetch** session details → display top info.
-3. [ ] **Fetch** session words → display in table, with pagination as needed.
-4. [ ] **Test** by going to `"/study_sessions/1"`.
+1. [x] **Get** `id` from `useParams()`.
+2. [x] **Fetch** session details → display top info.
+3. [x] **Fetch** session words → display in table, with pagination as needed.
+4. [x] **Test** by going to `"/study_sessions/1"`.
 
 ---
 

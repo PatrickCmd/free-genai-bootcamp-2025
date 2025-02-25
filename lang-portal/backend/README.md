@@ -107,6 +107,37 @@ uvicorn app:app --reload
      curl -X GET "http://127.0.0.1:8000/api/words/1"
      ```
 
+3. **Get Groups for a Word:**
+   - **Endpoint:** `GET /api/words/{word_id}/groups`
+   - **Path Parameter:**
+     - `word_id`: The ID of the word to retrieve groups for
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1)
+     - `page_size`: The number of items per page (default: 10)
+   - **Example:**
+     ```bash
+     curl -X GET "http://127.0.0.1:8000/api/words/1/groups"
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "groups": [
+         {
+           "id": 1,
+           "name": "Beginner Patois",
+           "word_count": 50,
+           "description": null
+         }
+       ],
+       "pagination": {
+         "current_page": 1,
+         "total_pages": 1,
+         "total_items": 1,
+         "items_per_page": 10
+       }
+     }
+     ```
+
 ### Groups Endpoints
 
 1. **Get All Groups with Pagination:**
@@ -154,7 +185,47 @@ uvicorn app:app --reload
 
 ### Study Activities Endpoints
 
-1. **Get a Specific Study Activity by ID:**
+1. **Get All Study Activities:**
+   - **Endpoint:** `GET /api/study_activities`
+   - **Description:** Retrieve a paginated list of study activities.
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1).
+     - `page_size`: The number of items per page (default: 10).
+   - **Example:**
+     ```bash
+     # Basic request
+     curl -X GET "http://127.0.0.1:8000/api/study_activities"
+     
+     # With pagination
+     curl -X GET "http://127.0.0.1:8000/api/study_activities?page=1&page_size=5"
+     
+     # Pretty print JSON response
+     curl -X GET "http://127.0.0.1:8000/api/study_activities" | python -m json.tool
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "study_activities": [
+         {
+           "id": 1,
+           "name": "Vocabulary Review",
+           "study_session_id": 1,
+           "group_id": 1,
+           "created_at": "2024-02-19T15:30:00",
+           "group_name": "Beginner Patois",
+           "review_items_count": 10
+         }
+       ],
+       "pagination": {
+         "current_page": 1,
+         "total_pages": 1,
+         "total_items": 1,
+         "items_per_page": 10
+       }
+     }
+     ```
+
+2. **Get a Specific Study Activity by ID:**
    - **Endpoint:** `GET /api/study_activities/{activity_id}`
    - **Path Parameter:**
      - `activity_id`: The ID of the study activity to retrieve.
@@ -179,7 +250,7 @@ uvicorn app:app --reload
      }
      ```
 
-2. **Get Study Sessions for a Specific Study Activity with Pagination:**
+3. **Get Study Sessions for a Specific Study Activity with Pagination:**
    - **Endpoint:** `GET /api/study_activities/{activity_id}/study_sessions`
    - **Path Parameter:**
      - `activity_id`: The ID of the study activity to retrieve study sessions for.
@@ -219,7 +290,7 @@ uvicorn app:app --reload
      }
      ```
 
-3. **Create a New Study Activity and Start Session:**
+4. **Create a New Study Activity and Start Session:**
    - **Endpoint:** `POST /api/study_activities`
    - **Request Body:**
      ```json
@@ -250,6 +321,42 @@ uvicorn app:app --reload
        "created_at": "2024-02-19T15:30:00",
        "group_name": "Beginner Patois",
        "review_items_count": 0
+     }
+     ```
+
+5. **Get Words for a Study Activity:**
+   - **Endpoint:** `GET /api/study_activities/{activity_id}/words`
+   - **Path Parameter:**
+     - `activity_id`: The ID of the study activity to retrieve words for
+   - **Query Parameters:**
+     - `page`: The page number to retrieve (default: 1)
+     - `page_size`: The number of items per page (default: 10)
+   - **Example:**
+     ```bash
+     curl -X GET "http://127.0.0.1:8000/api/study_activities/1/words"
+     ```
+   - **Response Example:**
+     ```json
+     {
+       "words": [
+         {
+           "id": 1,
+           "jamaican_patois": "mi",
+           "english": "me/my",
+           "parts": {
+             "type": "pronoun",
+             "usage": "subject"
+           },
+           "correct_count": 5,
+           "wrong_count": 2
+         }
+       ],
+       "pagination": {
+         "current_page": 1,
+         "total_pages": 1,
+         "total_items": 1,
+         "items_per_page": 10
+       }
      }
      ```
 
@@ -360,11 +467,11 @@ uvicorn app:app --reload
      }
      ```
 
-4. **Record a Word Review:**
+4. **Submit a Word Review:**
    - **Endpoint:** `POST /api/study_sessions/{session_id}/words/{word_id}/review`
    - **Path Parameters:**
-     - `session_id`: The ID of the study session.
-     - `word_id`: The ID of the word being reviewed.
+     - `session_id`: The ID of the study session
+     - `word_id`: The ID of the word being reviewed
    - **Request Body:**
      ```json
      {
@@ -373,15 +480,9 @@ uvicorn app:app --reload
      ```
    - **Example:**
      ```bash
-     # Create a word review
      curl -X POST "http://127.0.0.1:8000/api/study_sessions/1/words/1/review" \
        -H "Content-Type: application/json" \
        -d '{"correct": true}'
-     
-     # Pretty print JSON response
-     curl -X POST "http://127.0.0.1:8000/api/study_sessions/1/words/1/review" \
-       -H "Content-Type: application/json" \
-       -d '{"correct": true}' | python -m json.tool
      ```
    - **Response Example:**
      ```json

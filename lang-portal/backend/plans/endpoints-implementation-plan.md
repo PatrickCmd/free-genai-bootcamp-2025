@@ -550,8 +550,8 @@ def test_get_group_study_sessions():
 
 ### Steps
 
-1. [ ] **Create** `routes/study_activities.py`.
-2. [ ] **Import** modules:
+1. [x] **Create** `routes/study_activities.py`.
+2. [x] **Import** modules:
    ```python
    from fastapi import APIRouter, Query, Body
    from lib.db import get_db_connection
