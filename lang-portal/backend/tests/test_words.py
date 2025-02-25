@@ -42,4 +42,22 @@ def test_get_word():
 def test_get_word_not_found():
     response = client.get("/api/words/9999")
     assert response.status_code == 404
+    assert response.json()["detail"] == "Word not found"
+
+def test_get_word_groups():
+    response = client.get("/api/words/1/groups")
+    assert response.status_code == 200
+    data = response.json()
+    assert "groups" in data
+    assert "pagination" in data
+    
+    if len(data["groups"]) > 0:
+        group = data["groups"][0]
+        assert "id" in group
+        assert "name" in group
+        assert "word_count" in group
+
+def test_get_word_groups_not_found():
+    response = client.get("/api/words/9999/groups")
+    assert response.status_code == 404
     assert response.json()["detail"] == "Word not found" 

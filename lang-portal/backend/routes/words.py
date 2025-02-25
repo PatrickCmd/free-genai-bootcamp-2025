@@ -2,7 +2,7 @@ import json
 from fastapi import APIRouter, HTTPException, Query, Path
 from lib.db import get_db_connection
 from utils import paginate
-from models import PaginatedWords, Word
+from models import PaginatedWords, Word, PaginatedGroups
 
 router = APIRouter()
 
@@ -89,3 +89,79 @@ def get_word(word_id: int = Path(..., title="The ID of the word to retrieve")):
         ).model_dump()
         
         return word 
+
+@router.get("/words/{word_id}/groups", response_model=PaginatedGroups, tags=["Words"])
+def get_word_groups(
+    word_id: int = Path(..., title="The ID of the word to retrieve groups for"),
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=100)
+):
+    """
+    Retrieve a paginated list of groups that contain this word.
+
+    - **word_id**: The ID of the word to retrieve groups for
+    - **page**: The page number to retrieve (default: 1)
+    - **page_size**: The number of items per page (default: 10)
+    """
+    with get_db_connection() as conn:
+        # First check if the word exists
+        word_exists = conn.execute(
+            "SELECT 1 FROM words WHERE id = ?",
+            (word_id,)
+        ).fetchone()
+
+        if not word_exists:
+            raise HTTPException(status_code=404, detail="Word not found")
+
+        # Get groups for the word
+        query = """
+        SELECT g.id, g.name,
+               (SELECT COUNT(*) FROM word_groups wg2 WHERE wg2.group_id = g.id) as word_count
+        FROM groups g
+        JOIN word_groups wg ON g.id = wg.group_id
+        WHERE wg.word_id = ?
+        """
+        
+        paginated_query = paginate(query, page, page_size)
+        cursor = conn.execute(paginated_query, (word_id,))
+        rows = cursor.fetchall()
+
+        if not rows:
+            raise HTTPException(
+                status_code=404,
+                detail="No groups found for this word"
+            )
+
+        # Convert rows to list of Group models
+        groups = [
+            {
+                "id": row[0],
+                "name": row[1],
+                "word_count": row[2],
+                "description": None  # Add if you have descriptions
+            }
+            for row in rows
+        ]
+
+        # Get total count for pagination
+        total_items = conn.execute(
+            """
+            SELECT COUNT(DISTINCT g.id)
+            FROM groups g
+            JOIN word_groups wg ON g.id = wg.group_id
+            WHERE wg.word_id = ?
+            """,
+            (word_id,)
+        ).fetchone()[0]
+
+        total_pages = (total_items + page_size - 1) // page_size
+
+        return {
+            "groups": groups,
+            "pagination": {
+                "current_page": page,
+                "total_pages": total_pages,
+                "total_items": total_items,
+                "items_per_page": page_size
+            }
+        } 

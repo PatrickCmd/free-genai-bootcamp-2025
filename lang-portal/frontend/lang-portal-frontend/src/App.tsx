@@ -1,19 +1,20 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
+import StudyActivitiesIndex from './pages/StudyActivitiesIndex';
+import StudyActivityShow from './pages/StudyActivityShow';
+import StudyActivityLaunch from './pages/StudyActivityLaunch';
+import WordsIndex from './pages/WordsIndex';
+import WordShow from './pages/WordShow';
+import StudyActivityCreate from './pages/StudyActivityCreate';
+import GroupsIndex from './pages/GroupsIndex';
+import GroupShow from './pages/GroupShow';
+import StudySessionsIndex from './pages/StudySessionsIndex';
+import StudySessionShow from './pages/StudySessionShow';
+import Settings from './pages/Settings';
 
 // Placeholder components until we implement them
 const DashboardPage = () => <div className="text-center text-2xl">Dashboard Page</div>;
-const StudyActivitiesIndex = () => <div className="text-center text-2xl">Study Activities Page</div>;
-const StudyActivityShow = () => <div className="text-center text-2xl">Study Activity Show Page</div>;
-const StudyActivityLaunch = () => <div className="text-center text-2xl">Study Activity Launch Page</div>;
-const WordsIndex = () => <div className="text-center text-2xl">Words Index Page</div>;
-const WordShow = () => <div className="text-center text-2xl">Word Show Page</div>;
-const GroupsIndex = () => <div className="text-center text-2xl">Groups Index Page</div>;
-const GroupShow = () => <div className="text-center text-2xl">Group Show Page</div>;
-const StudySessionsIndex = () => <div className="text-center text-2xl">Study Sessions Index Page</div>;
-const StudySessionShow = () => <div className="text-center text-2xl">Study Session Show Page</div>;
-const Settings = () => <div className="text-center text-2xl">Settings Page</div>;
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/study_activities" element={<StudyActivitiesIndex />} />
         <Route path="/study_activities/:id" element={<StudyActivityShow />} />
         <Route path="/study_activities/:id/launch" element={<StudyActivityLaunch />} />
+        <Route path="/study_activities/new" element={<StudyActivityCreate />} />
         
         <Route path="/words" element={<WordsIndex />} />
         <Route path="/words/:id" element={<WordShow />} />
