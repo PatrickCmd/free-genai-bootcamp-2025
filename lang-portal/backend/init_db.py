@@ -23,6 +23,16 @@ def seed_data():
     }
 
     with get_db_connection() as conn:
+        # First seed the default settings if not exists
+        conn.execute("""
+            INSERT OR IGNORE INTO user_settings (
+                id, words_per_session, review_interval,
+                show_phonetics, show_usage_examples, dark_mode
+            ) VALUES (
+                1, 10, 24, 1, 1, 1
+            )
+        """)
+
         for table, file_path in seed_files.items():
             print(f"Seeding data for {table} from {file_path}...")
             with open(file_path, "r") as json_file:

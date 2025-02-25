@@ -72,3 +72,7 @@ class QuickStats(BaseModel):
     total_study_time_minutes: int
     recent_accuracy: float  # Accuracy rate for last 50 reviews
     streak_days: int  # Consecutive days with study sessions 
+
+class PaginatedStudyActivities(BaseModel):
+    study_activities: List[StudyActivity]
+    pagination: dict 

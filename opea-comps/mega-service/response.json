@@ -1,1 +1,22 @@
-{"id":"chatcmpl-LRBTZfg2SQJ79sKtVhK9Kx","object":"chat.completion","created":1740085566,"model":"llama3.2:1b","choices":[{"index":0,"message":{"role":"assistant","content":"No response content available"},"finish_reason":"stop","metadata":null}],"usage":{"prompt_tokens":0,"total_tokens":0,"completion_tokens":0}}
+{
+    "id": "chatcmpl-LRBTZfg2SQJ79sKtVhK9Kx",
+    "object": "chat.completion",
+    "created": 1740085566,
+    "model": "llama3.2:1b",
+    "choices": [
+        {
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": "No response content available"
+            },
+            "finish_reason": "stop",
+            "metadata": null
+        }
+    ],
+    "usage": {
+        "prompt_tokens": 0,
+        "total_tokens": 0,
+        "completion_tokens": 0
+    }
+}
