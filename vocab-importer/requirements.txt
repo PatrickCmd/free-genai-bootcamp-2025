@@ -1,0 +1,17 @@
+# Core dependencies
+streamlit==1.42.2
+python-dotenv==1.0.1
+pandas==2.2.3
+cachetools==5.5.1
+
+# LLM API clients
+openai==1.64.0
+anthropic==0.47.1
+groq==0.18.0
+boto3==1.37.0
+
+# Utilities
+pydantic==2.10.6
+
+# Events monitoring
+watchdog==6.0.0

@@ -1,0 +1,27 @@
+# Environment and secrets
+.env
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Local development
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/
+
+# Generated files
+*.log 
