@@ -25,3 +25,6 @@ Thumbs.db
 
 # Generated files
 *.log 
+
+# exports
+exports/

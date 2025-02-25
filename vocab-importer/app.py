@@ -1,7 +1,11 @@
 import streamlit as st
 import os
+import json
 from dotenv import load_dotenv
-from llm import check_api_status
+from llm import generate_vocabulary, check_api_status
+from utils.helpers import extract_json_from_text
+from data.schema import validate_words
+from data.export import export_words, export_group, export_word_groups
 
 # Load environment variables
 load_dotenv()
@@ -13,6 +17,16 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Initialize session state for storing generated vocabulary
+if 'generated_words' not in st.session_state:
+    st.session_state.generated_words = []
+if 'theme' not in st.session_state:
+    st.session_state.theme = ""
+if 'provider' not in st.session_state:
+    st.session_state.provider = ""
+if 'model' not in st.session_state:
+    st.session_state.model = ""
 
 # Application title
 st.title("Jamaican Patois Vocabulary Importer")
@@ -77,54 +91,181 @@ with tab1:
             st.error("Please enter a theme/category")
         else:
             with st.spinner(f"Generating {word_count} vocabulary items using {llm_provider}..."):
-                # Placeholder for actual generation
-                st.info("This is a placeholder. Actual LLM integration will be implemented in the next phase.")
+                try:
+                    # Call the LLM to generate vocabulary
+                    response = generate_vocabulary(
+                        theme=theme,
+                        count=word_count,
+                        provider=llm_provider,
+                        model=model,
+                        temperature=temperature,
+                        max_tokens=max_tokens
+                    )
+                    
+                    # Extract JSON from the response
+                    try:
+                        json_data = extract_json_from_text(response)
+                        
+                        # Handle different response formats
+                        if isinstance(json_data, dict) and "words" in json_data:
+                            words = json_data["words"]
+                        elif isinstance(json_data, dict) and "items" in json_data:
+                            words = json_data["items"]
+                        elif isinstance(json_data, list):
+                            words = json_data
+                        else:
+                            # If we can't find a valid structure, show the raw response
+                            st.error("Unexpected response format. Please try again.")
+                            st.text_area("Raw Response", response, height=200)
+                            words = []
+                        
+                        # Only proceed with validation if we have words
+                        if words:
+                            # Validate the words
+                            try:
+                                validated_words = validate_words(words)
+                                
+                                # Store in session state
+                                st.session_state.generated_words = [word.model_dump() for word in validated_words]
+                                st.session_state.theme = theme
+                                st.session_state.provider = llm_provider
+                                st.session_state.model = model
+                                
+                                st.success(f"Successfully generated {len(validated_words)} vocabulary items!")
+                            except Exception as e:
+                                st.error(f"Validation error: {str(e)}")
+                                st.text_area("Raw Data", json.dumps(words, indent=2), height=200)
+                    
+                    except Exception as e:
+                        st.error(f"Error processing response: {str(e)}")
+                        st.text_area("Raw Response", response, height=200)
                 
-                # Placeholder data
-                placeholder_data = [
-                    {
-                        "jamaican_patois": "Nyam",
-                        "english": "Eat",
-                        "parts": {
-                            "type": "verb"
-                        }
-                    },
-                    {
-                        "jamaican_patois": "Wah Gwaan",
-                        "english": "Hello/What's happening",
-                        "parts": {
-                            "type": "phrase"
-                        }
-                    }
-                ]
-                
-                st.subheader("Generated Vocabulary")
-                st.json(placeholder_data)
-                
-                # Export options
-                st.subheader("Export Options")
-                col1, col2, col3 = st.columns(3)
-                with col1:
+                except Exception as e:
+                    st.error(f"Error generating vocabulary: {str(e)}")
+    
+    # Display generated vocabulary
+    if st.session_state.generated_words:
+        st.subheader("Generated Vocabulary")
+        st.write(f"Theme: {st.session_state.theme}")
+        st.write(f"Generated using: {st.session_state.provider} - {st.session_state.model}")
+        
+        # Display in a table
+        words_df = []
+        for word in st.session_state.generated_words:
+            usage = word.get('parts', {}).get('usage', '')
+            words_df.append({
+                "Jamaican Patois": word.get('jamaican_patois', ''),
+                "English": word.get('english', ''),
+                "Type": word.get('parts', {}).get('type', ''),
+                "Usage Notes": usage if usage else ''
+            })
+        
+        st.dataframe(words_df, use_container_width=True)
+        
+        # Add collapsible raw JSON view
+        with st.expander("View Raw JSON"):
+            st.json(st.session_state.generated_words)
+        
+        # Export options
+        st.subheader("Export Options")
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            if st.button("Export Words"):
+                try:
+                    # Ensure all words have the required fields
+                    for word in st.session_state.generated_words:
+                        if 'id' not in word:
+                            word['id'] = None
+                    
+                    filepath = export_words(st.session_state.generated_words)
+                    with open(filepath, 'r') as f:
+                        words_json = f.read()
                     st.download_button(
-                        "Export Words",
-                        data="{}",
-                        file_name="words.json",
+                        "Download Words JSON",
+                        data=words_json,
+                        file_name=os.path.basename(filepath),
                         mime="application/json"
                     )
-                with col2:
+                    st.success(f"Words exported to {filepath}")
+                except Exception as e:
+                    st.error(f"Error exporting words: {str(e)}")
+                    import traceback
+                    st.error(traceback.format_exc())
+        
+        with col2:
+            if st.button("Export Group"):
+                try:
+                    filepath = export_group(st.session_state.theme)
+                    with open(filepath, 'r') as f:
+                        group_json = f.read()
                     st.download_button(
-                        "Export Group",
-                        data="{}",
-                        file_name="group.json",
+                        "Download Group JSON",
+                        data=group_json,
+                        file_name=os.path.basename(filepath),
                         mime="application/json"
                     )
-                with col3:
+                    st.success(f"Group exported to {filepath}")
+                except Exception as e:
+                    st.error(f"Error exporting group: {str(e)}")
+                    import traceback
+                    st.error(traceback.format_exc())
+        
+        with col3:
+            if st.button("Export All"):
+                try:
+                    # Export words
+                    # Ensure all words have the required fields
+                    for word in st.session_state.generated_words:
+                        if 'id' not in word:
+                            word['id'] = None
+                    
+                    words_filepath = export_words(st.session_state.generated_words)
+                    
+                    # Export group
+                    group_filepath = export_group(st.session_state.theme)
+                    
+                    # Read the exported files to get IDs
+                    with open(words_filepath, 'r') as f:
+                        words_data = json.load(f)
+                    with open(group_filepath, 'r') as f:
+                        group_data = json.load(f)
+                    
+                    # Extract IDs
+                    word_ids = [word.get('id') for word in words_data if word.get('id') is not None]
+                    group_id = group_data[0].get('id', 1) if group_data and len(group_data) > 0 else 1
+                    
+                    # Export word-group associations
+                    associations_filepath = export_word_groups(word_ids, group_id)
+                    
+                    # Create a zip file with all exports
+                    import zipfile
+                    from datetime import datetime
+                    
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    zip_filepath = f"exports/export_{timestamp}.zip"
+                    
+                    with zipfile.ZipFile(zip_filepath, 'w') as zipf:
+                        zipf.write(words_filepath, os.path.basename(words_filepath))
+                        zipf.write(group_filepath, os.path.basename(group_filepath))
+                        zipf.write(associations_filepath, os.path.basename(associations_filepath))
+                    
+                    # Provide download button for the zip file
+                    with open(zip_filepath, 'rb') as f:
+                        zip_data = f.read()
+                    
                     st.download_button(
-                        "Export Associations",
-                        data="{}",
-                        file_name="word_groups.json",
-                        mime="application/json"
+                        "Download All (ZIP)",
+                        data=zip_data,
+                        file_name=os.path.basename(zip_filepath),
+                        mime="application/zip"
                     )
+                    
+                    st.success(f"All data exported to {zip_filepath}")
+                except Exception as e:
+                    st.error(f"Error exporting data: {str(e)}")
+                    import traceback
+                    st.error(traceback.format_exc())
 
 with tab2:
     st.header("Import Vocabulary")

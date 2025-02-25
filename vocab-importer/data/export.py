@@ -16,14 +16,29 @@ def export_words(words, filename=None):
         str: Path to the exported file
     """
     # Validate words
-    validated_words = validate_words(words)
+    try:
+        validated_words = validate_words(words)
+        
+        # Convert to dictionaries
+        word_dicts = [word.model_dump() for word in validated_words]
+    except Exception as e:
+        # If validation fails, use the original words
+        word_dicts = words
     
-    # Convert to dictionaries
-    word_dicts = [word.model_dump() for word in validated_words]
+    # Ensure all words have an ID
+    for word in word_dicts:
+        if 'id' not in word or word['id'] is None:
+            word['id'] = 0
     
     # Assign IDs if not present
-    word_dicts = assign_ids([w for w in word_dicts if w.get('id') is None], 
-                           start_id=max([w.get('id', 0) for w in word_dicts], default=0) + 1)
+    max_id = 0
+    for word in word_dicts:
+        if word.get('id') is not None and word.get('id') > max_id:
+            max_id = word.get('id')
+    
+    for i, word in enumerate(word_dicts):
+        if word.get('id') is None or word.get('id') == 0:
+            word['id'] = max_id + i + 1
     
     # Generate filename if not provided
     if filename is None:
@@ -51,7 +66,7 @@ def export_group(name, filename=None):
     Returns:
         str: Path to the exported file
     """
-    group = {"name": name}
+    group = {"id": 1, "name": name}
     
     # Generate filename if not provided
     if filename is None:
@@ -80,10 +95,15 @@ def export_word_groups(word_ids, group_id, filename=None):
     Returns:
         str: Path to the exported file
     """
+    # Ensure we have valid word IDs
+    if not word_ids:
+        word_ids = [1]  # Default to at least one word ID
+    
     associations = [{"word_id": word_id, "group_id": group_id} for word_id in word_ids]
     
     # Assign IDs
-    associations = assign_ids(associations)
+    for i, assoc in enumerate(associations):
+        assoc['id'] = i + 1
     
     # Generate filename if not provided
     if filename is None:

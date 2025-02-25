@@ -1,6 +1,9 @@
 import os
+import json
 from openai import OpenAI
 from dotenv import load_dotenv
+
+from utils.helpers import extract_json_from_text
 
 # Load environment variables
 load_dotenv()
@@ -27,7 +30,7 @@ def generate_vocabulary(theme, count, model="gpt-4o", temperature=0.7, max_token
         max_tokens (int): Maximum tokens in the response
         
     Returns:
-        list: List of vocabulary items
+        str: JSON string containing vocabulary items
     """
     client = get_client()
     
@@ -40,16 +43,21 @@ def generate_vocabulary(theme, count, model="gpt-4o", temperature=0.7, max_token
     3. Part of speech (noun, verb, adjective, phrase, etc.)
     4. (Optional) Usage notes or context
 
-    Generate {count} vocabulary items that are authentic, commonly used, and appropriate for language learners.
+    Generate exactly {count} vocabulary items that are authentic, commonly used, and appropriate for language learners.
 
-    Format your response as a JSON array with the following structure for each item:
+    Format your response as a JSON object with the following structure:
     {{
-      "jamaican_patois": "word/phrase",
-      "english": "translation",
-      "parts": {{
-        "type": "part of speech",
-        "usage": "usage notes (optional)"
-      }}
+      "words": [
+        {{
+          "jamaican_patois": "word/phrase",
+          "english": "translation",
+          "parts": {{
+            "type": "part of speech",
+            "usage": "usage notes (optional)"
+          }}
+        }},
+        // more items...
+      ]
     }}
     """
     
@@ -65,9 +73,45 @@ def generate_vocabulary(theme, count, model="gpt-4o", temperature=0.7, max_token
             response_format={"type": "json_object"}
         )
         
-        # Extract and parse the JSON response
-        # This is a placeholder - actual implementation will need proper JSON parsing
-        return response.choices[0].message.content
+        # Extract the content from the response
+        content = response.choices[0].message.content
+        print(f"OpenAI response: {content}")
+        
+        # Use the extract_json_from_text function to handle various response formats
+        try:
+            parsed_json = extract_json_from_text(content)
+            
+            # Check if the response has the expected structure
+            if "words" in parsed_json and isinstance(parsed_json["words"], list):
+                return content
+            else:
+                # If the structure is not as expected, try to fix it
+                if isinstance(parsed_json, list):
+                    # If it's a list, wrap it in the expected structure
+                    return json.dumps({"words": parsed_json})
+                elif isinstance(parsed_json, dict):
+                    # If it's a dictionary but doesn't have 'words' key, add it
+                    words_list = []
+                    # Try to extract words from the dictionary
+                    for key, value in parsed_json.items():
+                        if isinstance(value, list):
+                            words_list = value
+                            break
+                    
+                    if not words_list:
+                        # If we couldn't find a list, use the whole dict as a single item if it has the right keys
+                        if "jamaican_patois" in parsed_json and "english" in parsed_json:
+                            words_list = [parsed_json]
+                    
+                    return json.dumps({"words": words_list})
+                else:
+                    # If it's something else, create a valid but empty response
+                    return json.dumps({"words": []})
+                    
+        except Exception as e:
+            print(f"Error extracting JSON: {str(e)}")
+            # If extraction fails, return a valid but empty response
+            return json.dumps({"words": []})
         
     except Exception as e:
         raise Exception(f"Error generating vocabulary with OpenAI: {str(e)}") 

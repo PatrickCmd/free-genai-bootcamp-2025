@@ -12,8 +12,14 @@ def extract_json_from_text(text):
     Returns:
         dict or list: Parsed JSON data
     """
+    # If the text is already valid JSON, return it directly
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    
     # Try to find JSON array or object in the text
-    json_match = re.search(r'(\[|\{).*(\]|\})', text, re.DOTALL)
+    json_match = re.search(r'(\{|\[).*(\}|\])', text, re.DOTALL)
     
     if json_match:
         json_str = json_match.group(0)
@@ -22,7 +28,16 @@ def extract_json_from_text(text):
         except json.JSONDecodeError:
             # If direct extraction fails, try to clean the string
             cleaned_json = re.sub(r'```json|```', '', json_str).strip()
-            return json.loads(cleaned_json)
+            try:
+                return json.loads(cleaned_json)
+            except json.JSONDecodeError:
+                # If still fails, try to extract just the array part
+                array_match = re.search(r'\[(.*)\]', cleaned_json, re.DOTALL)
+                if array_match:
+                    try:
+                        return json.loads(array_match.group(0))
+                    except:
+                        pass
     
     # If no JSON-like structure is found, raise an error
     raise ValueError("No valid JSON found in the text")
