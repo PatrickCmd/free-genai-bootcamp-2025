@@ -7,6 +7,13 @@ from utils.helpers import extract_json_from_text
 # Load environment variables
 load_dotenv()
 
+# Define fallback models in order of preference
+FALLBACK_MODELS = [
+    "amazon.nova-micro-v1:0",
+    "amazon.titan-text-express-v1",
+    "amazon.titan-text-lite-v1"
+]
+
 def get_client():
     """
     Initialize and return an AWS Bedrock client
@@ -25,14 +32,49 @@ def get_client():
         aws_secret_access_key=aws_secret_key
     )
 
-def generate_vocabulary(theme, count, model="anthropic.claude-3-sonnet", temperature=0.7, max_tokens=2000):
+def test_model_access(client, model_id):
+    """
+    Test if we can access a specific model in AWS Bedrock
+    
+    Args:
+        client: Bedrock client
+        model_id (str): Model ID to test
+        
+    Returns:
+        bool: True if accessible, False otherwise
+    """
+    try:
+            # Claude models use the converse API
+        inference_config = {
+            "maxTokens": 10,
+            "temperature": 0.7
+        }
+        
+        messages = [
+            {
+                "role": "user",
+                "content": [{"text": "Hello"}]
+            }
+        ]
+        
+        client.converse(
+            modelId=model_id,
+            messages=messages,
+            inferenceConfig=inference_config
+        )
+        return True
+            
+    except Exception:
+        return False
+
+def generate_vocabulary(theme, count, model_id="anthropic.claude-3-5-haiku-20241022-v1:0", temperature=0.7, max_tokens=2000):
     """
     Generate vocabulary items using AWS Bedrock models
     
     Args:
         theme (str): The theme or category for vocabulary generation
         count (int): Number of vocabulary items to generate
-        model (str): AWS Bedrock model to use
+        model_id (str): AWS Bedrock model ID to use
         temperature (float): Creativity parameter (0.0 to 1.0)
         max_tokens (int): Maximum tokens in the response
         
@@ -40,6 +82,19 @@ def generate_vocabulary(theme, count, model="anthropic.claude-3-sonnet", tempera
         str: JSON string containing vocabulary items
     """
     client = get_client()
+    
+    # Check if we can access the requested model
+    if not test_model_access(client, model_id):
+        print(f"Cannot access {model_id}, trying fallback models...")
+        
+        # Try fallback models
+        for fallback_model in FALLBACK_MODELS:
+            if test_model_access(client, fallback_model):
+                print(f"Using fallback model: {fallback_model}")
+                model_id = fallback_model
+                break
+        else:
+            raise ValueError("No accessible AWS Bedrock models found. Please check your AWS account permissions.")
     
     prompt = f"""
     You are a language expert specializing in Jamaican Patois. Your task is to generate vocabulary items for learning Jamaican Patois based on the theme: {theme}.
@@ -69,53 +124,26 @@ def generate_vocabulary(theme, count, model="anthropic.claude-3-sonnet", tempera
     """
     
     try:
-        # Different models have different request formats
-        if model.startswith("anthropic.claude"):
-            # Claude models
-            request_body = {
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": max_tokens,
-                "temperature": temperature,
-                "system": "You are a Jamaican Patois language expert.",
-                "messages": [
-                    {"role": "user", "content": prompt}
-                ]
+        inference_config = {
+            "maxTokens": max_tokens,
+            "temperature": temperature
+        }
+
+        messages = [
+            {
+                "role": "user",
+                "content": [{"text": prompt}]
             }
-        elif model.startswith("cohere"):
-            # Cohere models
-            request_body = {
-                "prompt": prompt,
-                "max_tokens": max_tokens,
-                "temperature": temperature
-            }
-        elif model.startswith("amazon.titan"):
-            # Amazon Titan models
-            request_body = {
-                "inputText": prompt,
-                "textGenerationConfig": {
-                    "maxTokenCount": max_tokens,
-                    "temperature": temperature
-                }
-            }
-        else:
-            raise ValueError(f"Unsupported model: {model}")
-        
-        response = client.invoke_model(
-            modelId=model,
-            body=json.dumps(request_body)
+        ]
+
+        response = client.converse(
+            modelId=model_id,
+            messages=messages,
+            inferenceConfig=inference_config
         )
-        
-        response_body = json.loads(response['body'].read())
-        
-        # Extract content based on model type
-        if model.startswith("anthropic.claude"):
-            content = response_body['content'][0]['text']
-        elif model.startswith("cohere"):
-            content = response_body['generations'][0]['text']
-        elif model.startswith("amazon.titan"):
-            content = response_body['results'][0]['outputText']
-        else:
-            content = str(response_body)
+        # print(f"AWS Bedrock response: {response}")
+
+        content = response['output']['message']['content'][0]['text']
         
         print(f"AWS Bedrock response: {content}")
         

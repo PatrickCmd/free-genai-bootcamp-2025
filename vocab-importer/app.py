@@ -74,11 +74,43 @@ with tab1:
                 index=0
             )
         elif llm_provider == "AWS Bedrock":
-            model = st.selectbox(
-                "Model",
-                options=["anthropic.claude-3-sonnet", "anthropic.claude-3-haiku", "cohere.command", "amazon.titan"],
-                index=0
-            )
+            # Try to get accessible models
+            try:
+                from llm.bedrock import test_model_access, get_client, FALLBACK_MODELS
+                
+                client = get_client()
+                
+                # Test models to see which ones are accessible
+                accessible_models = ["amazon.nova-micro-v1:0"]
+                
+                # Test Claude models
+                claude_models = [
+                    "anthropic.claude-3-5-haiku-20241022-v1:0",
+                    "anthropic.claude-3-haiku-20240307-v1:0",
+                    "anthropic.claude-3-sonnet-20240229-v1:0"
+                ]
+                
+                for model_id in claude_models:
+                    if test_model_access(client, model_id):
+                        accessible_models.append(model_id)
+                
+                # Add fallback models
+                for model_id in FALLBACK_MODELS:
+                    if test_model_access(client, model_id):
+                        accessible_models.append(model_id)
+                
+                model = st.selectbox(
+                    "Model",
+                    options=accessible_models,
+                    index=0
+                )
+            except Exception:
+                # Fallback to default options if there's an error
+                model = st.selectbox(
+                    "Model",
+                    options=["amazon.nova-micro-v1:0"],
+                    index=0
+                )
     
     # Advanced parameters
     with st.expander("Advanced Parameters"):
