@@ -6,6 +6,8 @@ from llm import generate_vocabulary, check_api_status
 from utils.helpers import extract_json_from_text, slugify
 from data.schema import validate_words
 from data.export import export_words, export_group, export_word_groups
+from data.importer import import_words, import_groups, import_word_groups, get_preview_data
+from api.client import check_api_connection, sync_words, sync_groups, sync_word_groups, get_all_groups, get_words_by_group
 
 # Load environment variables
 load_dotenv()
@@ -320,31 +322,140 @@ with tab2:
     
     with col1:
         words_file = st.file_uploader("Upload Words JSON", type=["json"], key="words_upload")
+        if words_file:
+            words_content = words_file.read().decode("utf-8")
+            words_preview, words_count, words_error = get_preview_data(words_content, 'words')
+            
+            if words_error:
+                st.error(f"Error parsing words file: {words_error}")
+            else:
+                st.success(f"Found {words_count} words in file")
     
     with col2:
         groups_file = st.file_uploader("Upload Groups JSON", type=["json"], key="groups_upload")
+        if groups_file:
+            groups_content = groups_file.read().decode("utf-8")
+            groups_preview, groups_count, groups_error = get_preview_data(groups_content, 'groups')
+            
+            if groups_error:
+                st.error(f"Error parsing groups file: {groups_error}")
+            else:
+                st.success(f"Found {groups_count} groups in file")
     
     with col3:
         associations_file = st.file_uploader("Upload Word-Group Associations JSON", type=["json"], key="associations_upload")
+        if associations_file:
+            associations_content = associations_file.read().decode("utf-8")
+            associations_preview, associations_count, associations_error = get_preview_data(associations_content, 'word_groups')
+            
+            if associations_error:
+                st.error(f"Error parsing associations file: {associations_error}")
+            else:
+                st.success(f"Found {associations_count} associations in file")
     
-    # Preview and import buttons
+    # Preview section
     if words_file or groups_file or associations_file:
         st.subheader("Preview")
         
+        preview_tabs = []
         if words_file:
-            st.write("Words Preview:")
-            st.info("Preview functionality will be implemented in a later phase")
-        
+            preview_tabs.append("Words")
         if groups_file:
-            st.write("Groups Preview:")
-            st.info("Preview functionality will be implemented in a later phase")
-        
+            preview_tabs.append("Groups")
         if associations_file:
-            st.write("Associations Preview:")
-            st.info("Preview functionality will be implemented in a later phase")
+            preview_tabs.append("Associations")
         
-        if st.button("Import to Database", type="primary"):
-            st.success("Import functionality will be implemented in a later phase")
+        if preview_tabs:
+            preview_tab = st.radio("Select preview", preview_tabs)
+            
+            if preview_tab == "Words" and words_file:
+                st.write("Words Preview:")
+                if words_preview:
+                    st.dataframe(words_preview)
+            
+            if preview_tab == "Groups" and groups_file:
+                st.write("Groups Preview:")
+                if groups_preview:
+                    st.dataframe(groups_preview)
+            
+            if preview_tab == "Associations" and associations_file:
+                st.write("Associations Preview:")
+                if associations_preview:
+                    st.dataframe(associations_preview)
+        
+        # Import options
+        st.subheader("Import Options")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            import_to_db = st.checkbox("Import to Local Database", value=True)
+        
+        with col2:
+            sync_with_api = st.checkbox("Sync with Backend API", value=check_api_connection())
+            if sync_with_api and not check_api_connection():
+                st.warning("Backend API is not connected. Sync will be skipped.")
+        
+        if st.button("Import Data", type="primary"):
+            import_results = []
+            sync_results = []
+            
+            # Import to local database
+            if import_to_db:
+                if words_file:
+                    imported_count, errors = import_words(words_content)
+                    if errors:
+                        import_results.append(f"⚠️ Imported {imported_count} words with errors: {errors}")
+                    else:
+                        import_results.append(f"✅ Successfully imported {imported_count} words")
+                
+                if groups_file:
+                    imported_count, errors = import_groups(groups_content)
+                    if errors:
+                        import_results.append(f"⚠️ Imported {imported_count} groups with errors: {errors}")
+                    else:
+                        import_results.append(f"✅ Successfully imported {imported_count} groups")
+                
+                if associations_file:
+                    imported_count, errors = import_word_groups(associations_content)
+                    if errors:
+                        import_results.append(f"⚠️ Imported {imported_count} associations with errors: {errors}")
+                    else:
+                        import_results.append(f"✅ Successfully imported {imported_count} associations")
+            
+            # Sync with backend API
+            if sync_with_api and check_api_connection():
+                if words_file:
+                    success, message = sync_words(json.loads(words_content))
+                    if success:
+                        sync_results.append(f"✅ {message}")
+                    else:
+                        sync_results.append(f"❌ {message}")
+                
+                if groups_file:
+                    success, message = sync_groups(json.loads(groups_content))
+                    if success:
+                        sync_results.append(f"✅ {message}")
+                    else:
+                        sync_results.append(f"❌ {message}")
+                
+                if associations_file:
+                    success, message = sync_word_groups(json.loads(associations_content))
+                    if success:
+                        sync_results.append(f"✅ {message}")
+                    else:
+                        sync_results.append(f"❌ {message}")
+            
+            # Display results
+            if import_results:
+                st.subheader("Import Results")
+                for result in import_results:
+                    st.write(result)
+            
+            if sync_results:
+                st.subheader("Sync Results")
+                for result in sync_results:
+                    st.write(result)
 
 with tab3:
     st.header("Feedback")
@@ -413,4 +524,11 @@ with st.sidebar:
     if aws_access_key and aws_secret_key:
         st.success("AWS Bedrock: Configured")
     else:
-        st.error("AWS Bedrock: Not configured") 
+        st.error("AWS Bedrock: Not configured")
+
+    st.subheader("Backend API Status")
+    api_connected = check_api_connection()
+    if api_connected:
+        st.success("Backend API: Connected")
+    else:
+        st.error("Backend API: Not connected") 

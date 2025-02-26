@@ -24,19 +24,26 @@ source venv/bin/activate
 2. Install dependencies:
 ```bash
 # Install required packages
-pip install streamlit python-dotenv pandas
-pip install openai anthropic groq boto3
+pip install -r requirements.txt
 ```
 
 3. Configure API keys:
-Create a `.env` file in the project root with your API keys:
+Create a `.env` file in the project root with your API keys (use `.env.example` as a template):
 ```
+# API Keys
 OPENAI_API_KEY=your_openai_key_here
 ANTHROPIC_API_KEY=your_anthropic_key_here
 GROQ_API_KEY=your_groq_key_here
 AWS_ACCESS_KEY_ID=your_aws_access_key
 AWS_SECRET_ACCESS_KEY=your_aws_secret_key
 AWS_REGION=your_aws_region
+
+# Database
+DATABASE_PATH=data/db/vocabulary.db
+
+# Backend API
+API_URL=http://localhost:8000/api
+API_KEY=your_api_key_here
 ```
 
 ### Running the Application
@@ -116,7 +123,40 @@ The exported files follow this naming convention:
 
 ### Import Tab
 
-The Import tab allows you to upload previously exported JSON files. This functionality will be implemented in a future phase.
+The Import tab allows you to upload previously exported JSON files and import them into the local database or sync them with the backend API.
+
+#### Step 1: Upload JSON Files
+
+Upload one or more of the following JSON files:
+- Words JSON: Contains vocabulary items
+- Groups JSON: Contains theme/category information
+- Word-Group Associations JSON: Contains the relationships between words and groups
+
+![Import Tab - Upload Files](screenshots/import_tab_upload.png)
+*Screenshot: Import tab with file upload sections*
+
+#### Step 2: Preview Data
+
+After uploading files, you can preview the data before importing. Select the data type you want to preview using the radio buttons.
+
+![Data Preview](screenshots/import_preview.png)
+*Screenshot: Preview of uploaded data*
+
+#### Step 3: Select Import Options
+
+Choose where to import the data:
+- **Import to Local Database**: Imports the data into the local SQLite database
+- **Sync with Backend API**: Sends the data to the backend API for synchronization
+
+![Import Options](screenshots/import_options.png)
+*Screenshot: Import options checkboxes*
+
+#### Step 4: Import Data
+
+Click the "Import Data" button to start the import process. The tool will display the results of the import operation, including any errors that occurred.
+
+![Import Results](screenshots/import_results.png)
+*Screenshot: Results of the import operation*
 
 ### Feedback Tab
 
@@ -127,8 +167,28 @@ The Feedback tab allows you to rate and provide comments on the generated vocabu
 - Generate Jamaican Patois vocabulary based on themes/categories
 - Choose from multiple LLM providers (OpenAI, Anthropic, Groq, AWS Bedrock)
 - Export vocabulary to JSON format
-- Import JSON files into the language learning application
+- Import JSON files into the local database
+- Sync data with the backend API
 - Provide feedback on generated vocabulary
+
+## Database Integration
+
+The tool uses a SQLite database to store vocabulary data locally. The database schema includes:
+
+- **words**: Stores vocabulary items with their translations and metadata
+- **groups**: Stores theme/category information
+- **word_groups**: Stores the relationships between words and groups
+
+When exporting or importing data, the tool checks for existing records to avoid duplicates and manages IDs to prevent conflicts.
+
+## Backend API Integration
+
+The tool can connect to a backend API to synchronize data. The API endpoints include:
+
+- `/health`: Check API connection
+- `/words/sync`: Sync vocabulary items
+- `/groups/sync`: Sync theme/category information
+- `/word_groups/sync`: Sync word-group associations
 
 ## Project Structure
 
@@ -137,6 +197,7 @@ vocab-importer/
 ├── app.py                 # Main entry point
 ├── requirements.txt       # Dependencies
 ├── .env                   # API keys (gitignored)
+├── .env.example           # Template for .env file
 ├── .gitignore
 ├── README.md
 ├── llm/                   # LLM integration modules
@@ -149,7 +210,10 @@ vocab-importer/
 │   ├── __init__.py
 │   ├── schema.py          # Data validation
 │   ├── export.py          # Export functionality
-│   └── import.py          # Import functionality
+│   ├── importer.py        # Import functionality
+│   └── database.py        # Database operations
+├── api/                   # API integration
+│   └── client.py          # API client
 ├── utils/                 # Utility functions
 │   ├── __init__.py
 │   └── helpers.py
@@ -157,7 +221,3 @@ vocab-importer/
     ├── __init__.py
     └── store.py
 ```
-
-## Adding Screenshots
-
-To complete the documentation, add screenshots of the application to the `screenshots` directory and update the image paths in this README. 

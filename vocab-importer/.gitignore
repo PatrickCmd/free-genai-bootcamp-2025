@@ -28,3 +28,6 @@ Thumbs.db
 
 # exports
 exports/
+
+# data
+data/db/

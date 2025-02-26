@@ -3,6 +3,13 @@ import os
 from datetime import datetime
 from .schema import validate_words, validate_groups, validate_word_groups
 from utils.helpers import assign_ids, slugify
+from .database import (
+    get_group_id, 
+    get_last_group_id, 
+    get_last_word_id, 
+    get_last_word_group_id,
+    check_database_exists
+)
 
 def export_words(words, filename=None, theme=None):
     """
@@ -26,20 +33,24 @@ def export_words(words, filename=None, theme=None):
         # If validation fails, use the original words
         word_dicts = words
     
+    # Get the last word ID from the database if it exists
+    last_id = 0
+    if check_database_exists():
+        try:
+            last_id = get_last_word_id()
+            print(f"Last word ID in database: {last_id}")
+        except Exception as e:
+            print(f"Error getting last word ID: {str(e)}")
+    
     # Ensure all words have an ID
     for word in word_dicts:
         if 'id' not in word or word['id'] is None:
             word['id'] = 0
     
-    # Assign IDs if not present
-    max_id = 0
-    for word in word_dicts:
-        if word.get('id') is not None and word.get('id') > max_id:
-            max_id = word.get('id')
-    
+    # Assign IDs if not present, starting after the last ID in the database
     for i, word in enumerate(word_dicts):
         if word.get('id') is None or word.get('id') == 0:
-            word['id'] = max_id + i + 1
+            word['id'] = last_id + i + 1
     
     # Generate filename if not provided
     if filename is None:
@@ -68,7 +79,27 @@ def export_group(name, filename=None):
     Returns:
         str: Path to the exported file
     """
-    group = {"id": 1, "name": name}
+    # Check if the group already exists in the database
+    group_id = None
+    if check_database_exists():
+        try:
+            group_id = get_group_id(name)
+            if group_id:
+                print(f"Group '{name}' already exists with ID: {group_id}")
+            else:
+                # Get the last group ID and increment
+                last_id = get_last_group_id()
+                group_id = last_id + 1
+                print(f"Creating new group ID: {group_id}")
+        except Exception as e:
+            print(f"Error checking group: {str(e)}")
+            # Default to ID 1 if there's an error
+            group_id = 1
+    else:
+        # Default to ID 1 if database doesn't exist
+        group_id = 1
+    
+    group = {"id": group_id, "name": name}
     
     # Generate filename if not provided
     if filename is None:
@@ -105,9 +136,18 @@ def export_word_groups(word_ids, group_id, filename=None, theme=None):
     
     associations = [{"word_id": word_id, "group_id": group_id} for word_id in word_ids]
     
-    # Assign IDs
+    # Get the last word_group ID from the database if it exists
+    last_id = 0
+    if check_database_exists():
+        try:
+            last_id = get_last_word_group_id()
+            print(f"Last word_group ID in database: {last_id}")
+        except Exception as e:
+            print(f"Error getting last word_group ID: {str(e)}")
+    
+    # Assign IDs starting after the last ID in the database
     for i, assoc in enumerate(associations):
-        assoc['id'] = i + 1
+        assoc['id'] = last_id + i + 1
     
     # Generate filename if not provided
     if filename is None:
