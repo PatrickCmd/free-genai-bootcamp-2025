@@ -64,7 +64,7 @@ with tab1:
         elif llm_provider == "Anthropic":
             model = st.selectbox(
                 "Model",
-                options=["claude-3-opus", "claude-3-sonnet", "claude-3-haiku"],
+                options=["claude-3-5-sonnet-20240620", "claude-3-5-sonnet-latest", "claude-3-5-haiku-latest", "claude-3-7-sonnet-latest"],
                 index=1
             )
         elif llm_provider == "Groq":

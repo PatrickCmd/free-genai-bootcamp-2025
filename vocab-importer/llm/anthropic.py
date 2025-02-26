@@ -17,7 +17,7 @@ def get_client():
     
     return anthropic.Anthropic(api_key=api_key)
 
-def generate_vocabulary(theme, count, model="claude-3-sonnet", temperature=0.7, max_tokens=2000):
+def generate_vocabulary(theme, count, model="claude-3-5-sonnet-20240620", temperature=0.7, max_tokens=2000):
     """
     Generate vocabulary items using Anthropic Claude models
     
