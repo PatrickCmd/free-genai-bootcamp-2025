@@ -105,16 +105,16 @@ This document outlines a step-by-step plan for implementing the Vocabulary Impor
 - [x] Implement file naming and organization
 
 #### Day 3-4: Import Implementation
-- [ ] Create file upload interface
-- [ ] Implement JSON parsing and validation
-- [ ] Build preview functionality for imported data
-- [ ] Handle validation errors and feedback
+- [x] Create file upload interface
+- [x] Implement JSON parsing and validation
+- [x] Build preview functionality for imported data
+- [x] Handle validation errors and feedback
 
 #### Day 5: Backend API Integration
-- [ ] Implement connection to language portal API
-- [ ] Create authentication mechanism
-- [ ] Build import-to-database functionality
-- [ ] Test end-to-end workflow
+- [x] Implement connection to language portal API
+- [x] Create authentication mechanism
+- [x] Build import-to-database functionality
+- [x] Test end-to-end workflow
 
 ### Week 5: Feedback System and Refinement
 

@@ -8,6 +8,9 @@ from data.schema import validate_words
 from data.export import export_words, export_group, export_word_groups
 from data.importer import import_words, import_groups, import_word_groups, get_preview_data
 from api.client import check_api_connection, sync_words, sync_groups, sync_word_groups, get_all_groups, get_words_by_group
+from feedback.store import store_feedback, get_feedback, get_feedback_stats, export_feedback
+import uuid
+from datetime import datetime
 
 # Load environment variables
 load_dotenv()
@@ -29,6 +32,14 @@ if 'provider' not in st.session_state:
     st.session_state.provider = ""
 if 'model' not in st.session_state:
     st.session_state.model = ""
+
+# Initialize session state for feedback
+if 'session_id' not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
+if 'feedback_submitted' not in st.session_state:
+    st.session_state.feedback_submitted = False
+if 'previous_generations' not in st.session_state:
+    st.session_state.previous_generations = []
 
 # Application title
 st.title("Jamaican Patois Vocabulary Importer")
@@ -165,6 +176,22 @@ with tab1:
                                 st.session_state.provider = llm_provider
                                 st.session_state.model = model
                                 
+                                # Add to previous generations
+                                generation = {
+                                    'timestamp': datetime.now().isoformat(),
+                                    'theme': theme,
+                                    'provider': llm_provider,
+                                    'model': model,
+                                    'words': [word.model_dump() for word in validated_words]
+                                }
+                                st.session_state.previous_generations.insert(0, generation)
+                                # Keep only the last 5 generations
+                                if len(st.session_state.previous_generations) > 5:
+                                    st.session_state.previous_generations = st.session_state.previous_generations[:5]
+                                
+                                # Reset feedback submitted flag
+                                st.session_state.feedback_submitted = False
+                                
                                 st.success(f"Successfully generated {len(validated_words)} vocabulary items!")
                             except Exception as e:
                                 st.error(f"Validation error: {str(e)}")
@@ -284,7 +311,6 @@ with tab1:
                     
                     # Create a zip file with all exports
                     import zipfile
-                    from datetime import datetime
                     
                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                     theme_slug = slugify(st.session_state.theme) if st.session_state.theme else "export"
@@ -460,24 +486,136 @@ with tab2:
 with tab3:
     st.header("Feedback")
     
-    # Feedback form
-    st.subheader("Rate Generated Vocabulary")
+    # Tabs for feedback and statistics
+    feedback_tab, stats_tab = st.tabs(["Submit Feedback", "Feedback Statistics"])
     
-    # Selection for which generation to rate
-    st.selectbox("Select Generation to Rate", options=["Current Session", "Previous Session 1", "Previous Session 2"])
-    
-    # Rating
-    rating = st.slider("Rating", min_value=1, max_value=5, value=3)
-    
-    # Comments
-    comments = st.text_area("Comments (Optional)", placeholder="Enter any feedback or suggestions here...")
-    
-    # Submit button
-    if st.button("Submit Feedback", type="primary"):
-        if rating:
-            st.success("Thank you for your feedback! This will help improve future generations.")
+    with feedback_tab:
+        st.subheader("Rate Generated Vocabulary")
+        
+        # Check if there are any generations to rate
+        if not st.session_state.previous_generations:
+            st.warning("No vocabulary has been generated yet. Generate vocabulary in the Generate tab first.")
         else:
-            st.error("Please provide a rating before submitting.")
+            # Selection for which generation to rate
+            generation_options = [f"{g['theme']} ({g['provider']} - {g['model']}, {g['timestamp'][:16].replace('T', ' ')})" for g in st.session_state.previous_generations]
+            selected_generation_idx = st.selectbox(
+                "Select Generation to Rate", 
+                options=range(len(generation_options)),
+                format_func=lambda i: generation_options[i]
+            )
+            
+            selected_generation = st.session_state.previous_generations[selected_generation_idx]
+            
+            # Display selected generation
+            st.write(f"Theme: {selected_generation['theme']}")
+            st.write(f"Provider: {selected_generation['provider']}")
+            st.write(f"Model: {selected_generation['model']}")
+            
+            # Display a sample of the words
+            st.write("Sample words:")
+            sample_words = selected_generation['words'][:3]  # Show first 3 words
+            for word in sample_words:
+                st.write(f"- {word['jamaican_patois']} ({word['english']})")
+            
+            # Rating
+            rating = st.slider("Rating (1-5)", min_value=1, max_value=5, value=3)
+            
+            # Comments
+            comments = st.text_area("Comments (Optional)", placeholder="Enter any feedback or suggestions here...")
+            
+            # Submit button
+            if st.button("Submit Feedback", type="primary"):
+                if rating:
+                    # Store feedback
+                    feedback_id = store_feedback(
+                        session_id=st.session_state.session_id,
+                        theme=selected_generation['theme'],
+                        provider=selected_generation['provider'],
+                        model=selected_generation['model'],
+                        rating=rating,
+                        comments=comments
+                    )
+                    
+                    st.session_state.feedback_submitted = True
+                    st.success(f"Thank you for your feedback! (ID: {feedback_id})")
+                else:
+                    st.error("Please provide a rating before submitting.")
+    
+    with stats_tab:
+        st.subheader("Feedback Statistics")
+        
+        # Get feedback statistics
+        stats = get_feedback_stats()
+        
+        if stats['avg_rating'] == 0:
+            st.info("No feedback has been submitted yet.")
+        else:
+            # Overall statistics
+            st.write(f"Average Rating: {stats['avg_rating']:.2f}/5.0")
+            
+            # Rating distribution
+            st.write("Rating Distribution:")
+            rating_data = []
+            for i in range(1, 6):
+                rating_data.append({
+                    'Rating': str(i),
+                    'Count': stats['rating_distribution'].get(i, 0)
+                })
+            
+            st.bar_chart(
+                data=rating_data,
+                x='Rating',
+                y='Count'
+            )
+            
+            # Provider statistics
+            st.write("Provider Performance:")
+            provider_data = []
+            for provider, data in stats['provider_stats'].items():
+                provider_data.append({
+                    'Provider': provider,
+                    'Average Rating': data['avg_rating'],
+                    'Count': data['count']
+                })
+            
+            st.dataframe(provider_data)
+            
+            # Model statistics
+            st.write("Model Performance:")
+            model_data = []
+            for model, data in stats['model_stats'].items():
+                model_data.append({
+                    'Model': model,
+                    'Average Rating': data['avg_rating'],
+                    'Count': data['count']
+                })
+            
+            st.dataframe(model_data)
+            
+            # Theme statistics
+            st.write("Popular Themes:")
+            theme_data = []
+            for theme, data in stats['theme_stats'].items():
+                theme_data.append({
+                    'Theme': theme,
+                    'Average Rating': data['avg_rating'],
+                    'Count': data['count']
+                })
+            
+            st.dataframe(theme_data)
+            
+            # Export feedback
+            if st.button("Export Feedback Data"):
+                filepath = export_feedback()
+                with open(filepath, 'r') as f:
+                    feedback_json = f.read()
+                st.download_button(
+                    "Download Feedback JSON",
+                    data=feedback_json,
+                    file_name=os.path.basename(filepath),
+                    mime="application/json"
+                )
+                st.success(f"Feedback exported to {filepath}")
 
 # Sidebar with information
 with st.sidebar:

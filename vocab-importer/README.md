@@ -162,6 +162,42 @@ Click the "Import Data" button to start the import process. The tool will displa
 
 The Feedback tab allows you to rate and provide comments on the generated vocabulary. This helps improve the quality of future generations.
 
+#### Step 1: Select Generation to Rate
+
+Choose which vocabulary generation you want to rate from the dropdown menu. The tool keeps track of your recent generations.
+
+![Feedback Tab - Select Generation](screenshots/feedback_select.png)
+*Screenshot: Selecting a generation to rate*
+
+#### Step 2: Provide Rating and Comments
+
+1. Use the slider to rate the quality of the generated vocabulary from 1 to 5.
+2. Optionally, provide comments or suggestions in the text area.
+
+![Feedback Form](screenshots/feedback_form.png)
+*Screenshot: Feedback form with rating and comments*
+
+#### Step 3: Submit Feedback
+
+Click the "Submit Feedback" button to store your feedback. The feedback is stored in the local database and can be used to improve future generations.
+
+![Feedback Submitted](screenshots/feedback_submitted.png)
+*Screenshot: Confirmation of submitted feedback*
+
+#### Step 4: View Feedback Statistics
+
+Switch to the "Feedback Statistics" tab to view aggregated feedback data, including:
+- Average rating across all generations
+- Rating distribution
+- Provider performance
+- Model performance
+- Popular themes
+
+![Feedback Statistics](screenshots/feedback_stats.png)
+*Screenshot: Feedback statistics dashboard*
+
+You can also export all feedback data to a JSON file for further analysis.
+
 ## Features
 
 - Generate Jamaican Patois vocabulary based on themes/categories
