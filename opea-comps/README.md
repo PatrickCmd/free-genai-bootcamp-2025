@@ -3,6 +3,7 @@
 2. [Opea Project](https://github.com/opea-project)
 3. [Opea Comps](https://github.com/opea-project/GenAIComps)
 4. [Opea Project Comps](https://opea-project.github.io/latest/GenAIComps/README.html)
+5. [Opea Tutorial](https://opea-project.github.io/latest/tutorial/index.html)
 
 ## Setting Up Ollama locally
 See APIs [here](../ollama-models/README.md)
@@ -37,6 +38,13 @@ The first two options show your local network IP, while the curl commands show y
 
 ```sh
 HOST_IP=$(curl ifconfig.me)
+echo "HOST_IP: $HOST_IP"
+```
+
+To force IPv4 if you are getting IPv6
+
+```sh
+HOST_IP=$(curl -4 ifconfig.me)
 echo "HOST_IP: $HOST_IP"
 ```
 

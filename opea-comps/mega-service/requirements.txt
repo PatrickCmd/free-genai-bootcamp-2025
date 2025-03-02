@@ -1,1 +1,3 @@
 opea-comps
+fastapi
+uvicorn
