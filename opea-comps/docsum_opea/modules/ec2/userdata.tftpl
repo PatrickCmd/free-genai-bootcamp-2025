@@ -1,0 +1,25 @@
+#!/bin/bash
+sudo apt-get update -y &&
+sudo apt-get install -y \
+apt-transport-https \
+ca-certificates \
+curl \
+wget \
+git \
+gnupg-agent \
+lsb-release \
+software-properties-common &&
+wget https://raw.githubusercontent.com/opea-project/GenAIExamples/refs/heads/main/ChatQnA/docker_compose/install_docker.sh &&
+chmod +x install_docker.sh &&
+./install_docker.sh &&
+sudo usermod -aG docker ubuntu &&
+export RELEASE_VERSION=${opea_release_version} &&
+export host_ip=$(hostname -I | awk '{print $1}') &&
+export HUGGINGFACEHUB_API_TOKEN="${huggingface_token}" &&       
+git clone https://github.com/opea-project/GenAIExamples.git &&
+cd GenAIExamples &&
+git checkout tags/v$${RELEASE_VERSION} &&
+cd DocSum/docker_compose &&
+source set_env.sh &&
+cd intel/cpu/xeon/ &&
+docker compose -f compose.yaml up -d

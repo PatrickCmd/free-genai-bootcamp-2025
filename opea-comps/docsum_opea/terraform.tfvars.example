@@ -1,0 +1,30 @@
+# AWS Region to deploy resources in
+aws_region = "us-east-1"
+
+# Name of the project (used for resource naming)
+project_name = "opea-docsum"
+
+# CIDR block for the VPC
+vpc_cidr_block = "10.0.0.0/16"
+
+# EC2 instance type - m7i.4xlarge recommended for OPEA DocSum
+instance_type = "m7i.4xlarge"
+
+# Ubuntu AMI ID as specified in OPEA docs
+ami_id = "ami-04dd23e62ed049936"
+
+# Path to your SSH public key file
+ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+# Path to your SSH private key file (used for generating SSH config)
+ssh_private_key_path = "~/.ssh/id_rsa"
+
+# Size of the root volume in GB
+root_volume_size = 100
+
+# Hugging Face API token for model access
+# Get this from https://huggingface.co/settings/tokens
+huggingface_token = "your-huggingface-token"
+
+# OPEA release version to deploy
+opea_release_version = "1.2" 

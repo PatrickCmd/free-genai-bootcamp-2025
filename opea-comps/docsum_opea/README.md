@@ -1,8 +1,12 @@
-# OPEA ChatQnA AWS Deployment
+# OPEA DocSum Intel Xeon AWS Deployment
 
-This repository contains Terraform code to deploy [OPEA's ChatQnA application on AWS](https://opea-project.github.io/latest/getting-started/README.html). The deployment follows the official OPEA documentation and automates the provisioning of infrastructure and application deployment using terraform as infrastructure as code (IaC).
+This repository contains Terraform code to deploy [OPEA's DocSum application on Intel Xeon AWS](https://opea-project.github.io/latest/tutorial/DocSum/DocSum_Guide.html). The deployment follows the official OPEA documentation and automates the provisioning of infrastructure and application deployment using terraform as infrastructure as code (IaC).
 
-- [OPEA ChatQnA - Github](https://github.com/opea-project/GenAIExamples/tree/main/ChatQnA)
+- [OPEA DocSum - Github](https://github.com/opea-project/GenAIExamples/tree/main/DocSum)
+
+## Deployments
+- [Single node on-prem deployment with TGI on Intel® Xeon® Scalable processor](https://opea-project.github.io/latest/tutorial/DocSum/deploy/xeon.html)
+- [Build Mega Service of Document Summarization on Intel Xeon Processor](https://github.com/opea-project/GenAIExamples/tree/main/DocSum/docker_compose/intel/cpu/xeon)
 
 ## Prerequisites
 
@@ -15,7 +19,7 @@ This repository contains Terraform code to deploy [OPEA's ChatQnA application on
 ## Project Structure
 
 ```
-opea-chatqna-deployment/
+opea-DocSum-deployment/
 ├── main.tf                # Main Terraform configuration
 ├── variables.tf           # Input variables
 ├── outputs.tf             # Output values
@@ -99,7 +103,7 @@ cp terraform.tfvars.example terraform.tfvars
 
 ```hcl
 aws_region           = "us-east-1"        # Your preferred AWS region
-instance_type        = "m7i.4xlarge"      # Recommended for OPEA ChatQnA
+instance_type        = "m7i.4xlarge"      # Recommended for OPEA DocSum
 ssh_public_key_path  = "~/.ssh/id_rsa.pub" # Path to your SSH public key
 ssh_private_key_path = "~/.ssh/id_rsa"    # Path to your SSH private key
 huggingface_token    = "your-huggingface-token" # Your Hugging Face API token
@@ -115,8 +119,8 @@ huggingface_token    = "your-huggingface-token" # Your Hugging Face API token
 4. Run `terraform validate` to validate the configuration
 5. Run `terraform plan` to see the execution plan
 6. Run `terraform apply` to create the infrastructure
-7. Use the generated SSH config to connect to the instance: `cat ./ssh_config_opea-chatqna.txt | bash`
-8. Access the ChatQnA application via the public IP displayed in the outputs
+7. Use the generated SSH config to connect to the instance: `cat ./ssh_config_opea-DocSum.txt | bash`
+8. Access the DocSum application via the public IP displayed in the outputs
 9. When finished, run `terraform destroy -auto-approve` to tear down the infrastructure
 
 ## Troubleshooting
@@ -141,6 +145,13 @@ If you encounter issues during deployment:
    - Your SSH keys have the correct permissions (chmod 600 for private key)
    - The security group allows SSH access from your IP address 
 
-5. With a successful deployment browse to `http://{public_ip}` i.e `http://3.237.196.198/`
+5. With a successful deployment browse to `http://{host_ip}:5173` i.e `http://3.239.104.33:5173/`
 
-![ChatQnA](./screenshots/chatqna.png)
+#### Text Summary
+![DocSum Text](./screenshots/DocSum-Text-Summary.png)
+
+#### Document Summary
+![DocSum Document](./screenshots/DocSum-Document-Smmary.png)
+
+#### Audio Summary
+![DocSum Audio](./screenshots/DocSum-Audio-Summary.png)
