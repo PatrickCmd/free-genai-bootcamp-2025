@@ -200,7 +200,7 @@ docker exec -it ollama-server ollama pull llama3.2:3b
 chmod +x bin/test_chat.sh
 
 # Run the test script
-bin/test_chat.sh
+./bin/test_chat.sh
 ```
 
 
