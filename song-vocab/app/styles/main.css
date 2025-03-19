@@ -1,0 +1,39 @@
+/* Main styling for the Song Vocab application */
+
+/* Increase text readability */
+.lyrics-container {
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Vocabulary card styling */
+.vocab-card {
+    border-left: 4px solid #4CAF50;
+    background-color: #f8fdf8;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Example sentence styling */
+.example-sentence {
+    font-style: italic;
+    color: #555;
+    padding-left: 15px;
+    border-left: 2px solid #ccc;
+    margin: 5px 0 5px 10px;
+}
+
+/* Button styling */
+.stButton button {
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* Header styling */
+h1, h2, h3 {
+    color: #1E3A8A;
+} 
