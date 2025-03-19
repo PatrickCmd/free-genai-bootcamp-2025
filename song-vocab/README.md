@@ -90,18 +90,23 @@ The final component is a user-friendly web interface built with Streamlit that t
 *The main interface allows users to enter a song title and select language preferences*
 
 **Song Details and Lyrics**
-![Song Details](screenshots/song_details.png)
 *After searching, the application displays song details and lyrics*
+
+![Song Details](screenshots/song_details.png)
+
 ![Song Details](screenshots/song_lyrics.png)
 
 **Vocabulary Items**
-![Vocabulary Items](screenshots/vocabulary_items.png)
 *Generated vocabulary items with explanations and example sentences*
 
+![Vocabulary Items](screenshots/vocabulary_items.png)
+
 **Export and Save Options**
-![Save Options](screenshots/save_options_1.png)
-![Save Options](screenshots/save_options_2.png)
 *Users can save results to the database or export as JSON*
+![Save Options](screenshots/save_options_1.png)
+
+![Save Options](screenshots/save_options_2.png)
+
 
 #### Running the Application
 
