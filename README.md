@@ -130,4 +130,23 @@ A comprehensive application demonstrating AI agentic workflows:
 
 This project represents the culmination of my GenAI Bootcamp journey, demonstrating how to combine multiple AI capabilities into a cohesive application with practical utility for language learners, particularly those studying Jamaican Patois.
 
+## 7. AI Deployment and Security
+*Reference: [deploy-ai](./deploy-ai/README.md)*
+
+Exploring best practices for deploying and securing AI applications:
+- Cloud deployment strategies for AI/ML models
+- Security considerations for LLM-powered applications
+- Cost optimization techniques for AI inference
+- Monitoring and observability of AI systems
+- Compliance and governance frameworks
+
+**Key Learnings:**
+- Implemented secure API endpoints with proper authentication
+- Explored rate limiting and usage tracking for AI services
+- Evaluated various deployment options (serverless, containers, VMs)
+- Documented strategies for protecting prompt inputs and model outputs
+- Researched techniques for preventing prompt injection attacks
+
+This module provided critical insights into the operational aspects of AI applications beyond development. Understanding how to properly deploy, secure, and monitor LLM-based applications is essential for building production-ready systems that can be safely used by real users while managing costs effectively.
+
 
